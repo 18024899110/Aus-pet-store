@@ -1,0 +1,134 @@
+.register-page {
+  padding: 60px 0;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 160px);
+}
+
+.register-card {
+  border: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+}
+
+.register-title {
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.register-subtitle {
+  color: #666;
+  margin-bottom: 0;
+}
+
+.register-btn {
+  width: 100%;
+  padding: 10px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.social-register-divider {
+  position: relative;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.social-register-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #dee2e6;
+}
+
+.social-register-divider span {
+  position: relative;
+  background-color: #fff;
+  padding: 0 15px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.social-register-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.social-register-buttons .btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.google-btn {
+  border-color: #4285F4;
+  color: #4285F4;
+}
+
+.google-btn:hover {
+  background-color: #4285F4;
+  border-color: #4285F4;
+  color: white;
+}
+
+.facebook-btn {
+  border-color: #3b5998;
+  color: #3b5998;
+}
+
+.facebook-btn:hover {
+  background-color: #3b5998;
+  border-color: #3b5998;
+  color: white;
+}
+
+.secure-register-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+}
+
+.login-link {
+  text-align: center;
+  color: #666;
+}
+
+.login-link a {
+  color: #4a9e5c;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+.register-help {
+  text-align: center;
+  margin-top: 20px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.register-help a {
+  color: #4a9e5c;
+  text-decoration: none;
+}
+
+.register-help a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .register-page {
+    padding: 40px 0;
+  }
+} 
