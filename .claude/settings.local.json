@@ -19,7 +19,9 @@
       "Bash(timeout:*)",
       "Bash(rg:*)",
       "Bash(mv:*)",
-      "Bash(start http://localhost:3000)"
+      "Bash(start http://localhost:3000)",
+      "Bash(npm run build:*)",
+      "Bash(rm:*)"
     ],
     "deny": []
   }

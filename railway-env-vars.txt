@@ -1,0 +1,35 @@
+## Railway Backend Environment Variables
+## Copy these to Railway Environment Variables section:
+
+# Security - IMPORTANT: Generate a long random string for SECRET_KEY
+SECRET_KEY=your-super-secret-key-change-this-in-production-make-it-long-and-random-32-chars-minimum
+
+# Database - This will be automatically provided by Railway PostgreSQL addon
+# You don't need to set this manually - Railway will set it automatically when you add PostgreSQL
+SQLALCHEMY_DATABASE_URI=${{Postgres.DATABASE_URL}}
+
+# CORS - Update with your actual Vercel domain (will be available after frontend deployment)
+CORS_ORIGINS=https://your-frontend.vercel.app,https://cy-pet-store.vercel.app
+
+# Admin Settings - CHANGE THESE!
+ADMIN_EMAIL=admin@cypetstore.com
+ADMIN_PASSWORD=SecurePassword123!
+
+# App Settings
+PROJECT_NAME=CY Pet Store
+API_V1_STR=/api/v1
+ENVIRONMENT=production
+DEBUG=false
+
+# Optional: Email settings (for order confirmations)
+# SMTP_TLS=true
+# SMTP_PORT=587
+# SMTP_HOST=smtp.gmail.com
+# SMTP_USER=noreply@cypetstore.com
+# SMTP_PASSWORD=your-app-password
+# EMAILS_FROM_EMAIL=noreply@cypetstore.com
+# EMAILS_FROM_NAME=CY Pet Store
+
+# File Upload
+UPLOAD_FOLDER=static/uploads
+MAX_CONTENT_LENGTH=16777216
