@@ -18,7 +18,7 @@ def read_cart_items(
     current_user: User = Depends(get_current_active_user),
 ) -> Any:
     """
-    获取当前用户的购物车
+    Get current user's shopping cart
     """
     cart_items = db.query(CartItem).filter(CartItem.user_id == current_user.id).all()
     return cart_items
@@ -32,9 +32,9 @@ def add_cart_item(
     current_user: User = Depends(get_current_active_user),
 ) -> Any:
     """
-    添加商品到购物车
+    Add item to shopping cart
     """
-    # 检查商品是否存在且可用
+    # Check if product exists and is available
     product = db.query(Product).filter(
         Product.id == item_in.product_id,
         Product.is_active == True
@@ -43,29 +43,29 @@ def add_cart_item(
     if not product:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="商品不存在或不可用",
+            detail="Product not found or not available",
         )
     
-    # 检查库存是否足够
+    # Check if stock is sufficient
     if product.stock < item_in.quantity:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="商品库存不足",
+            detail="Insufficient stock",
         )
     
-    # 检查购物车中是否已有该商品
+    # Check if item already exists in cart
     existing_item = db.query(CartItem).filter(
         CartItem.user_id == current_user.id,
         CartItem.product_id == item_in.product_id
     ).first()
     
     if existing_item:
-        # 如果已有该商品，则更新数量
+        # If item exists, update quantity
         new_quantity = existing_item.quantity + item_in.quantity
         if new_quantity > product.stock:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="商品库存不足",
+                detail="Insufficient stock",
             )
         
         existing_item.quantity = new_quantity
@@ -74,7 +74,7 @@ def add_cart_item(
         db.refresh(existing_item)
         return existing_item
     else:
-        # 如果没有该商品，则添加新项
+        # If item doesn't exist, add new item
         cart_item = CartItem(
             user_id=current_user.id,
             product_id=item_in.product_id,
@@ -95,7 +95,7 @@ def update_cart_item(
     current_user: User = Depends(get_current_active_user),
 ) -> Any:
     """
-    更新购物车项目数量
+    Update shopping cart item quantity
     """
     cart_item = db.query(CartItem).filter(
         CartItem.id == cart_item_id,
@@ -105,10 +105,10 @@ def update_cart_item(
     if not cart_item:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="购物车项目不存在",
+            detail="Cart item not found",
         )
     
-    # 检查商品是否存在且可用
+    # Check if product exists and is available
     product = db.query(Product).filter(
         Product.id == cart_item.product_id,
         Product.is_active == True
@@ -117,17 +117,17 @@ def update_cart_item(
     if not product:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="商品不存在或不可用",
+            detail="Product not found or not available",
         )
     
-    # 检查库存是否足够
+    # Check if stock is sufficient
     if product.stock < item_in.quantity:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="商品库存不足",
+            detail="Insufficient stock",
         )
     
-    # 更新数量
+    # Update quantity
     cart_item.quantity = item_in.quantity
     db.add(cart_item)
     db.commit()
@@ -143,7 +143,7 @@ def remove_cart_item(
     current_user: User = Depends(get_current_active_user),
 ) -> Any:
     """
-    从购物车中移除商品
+    Remove item from shopping cart
     """
     cart_item = db.query(CartItem).filter(
         CartItem.id == cart_item_id,
@@ -153,12 +153,12 @@ def remove_cart_item(
     if not cart_item:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="购物车项目不存在",
+            detail="Cart item not found",
         )
     
     db.delete(cart_item)
     db.commit()
-    return {"message": "商品已从购物车中移除"}
+    return {"message": "Item removed from cart"}
 
 
 @router.delete("/")
@@ -167,8 +167,8 @@ def clear_cart(
     current_user: User = Depends(get_current_active_user),
 ) -> Any:
     """
-    清空购物车
+    Clear shopping cart
     """
     db.query(CartItem).filter(CartItem.user_id == current_user.id).delete()
     db.commit()
-    return {"message": "购物车已清空"} 
+    return {"message": "Cart cleared"} 

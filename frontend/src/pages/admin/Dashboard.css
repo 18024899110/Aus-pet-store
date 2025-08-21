@@ -1,0 +1,114 @@
+.dashboard {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dashboard-title {
+  color: #2c3e50;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Stat Cards */
+.stat-card .card-body {
+  padding: 1.5rem;
+}
+
+.stat-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.stat-details {
+  flex: 1;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  line-height: 1;
+}
+
+.stat-label {
+  color: #7f8c8d;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Alert Cards */
+.alert-card {
+  border-width: 2px !important;
+}
+
+.alert-card .card-body {
+  padding: 1.5rem;
+}
+
+.alert-card h5 {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* Chart containers */
+.admin-card .card-body {
+  padding: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .stat-card .card-body {
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .stat-card .card-body .d-flex {
+    flex-direction: column;
+    align-items: center !important;
+  }
+  
+  .stat-icon {
+    margin-right: 0;
+    margin-bottom: 0.75rem;
+  }
+  
+  .stat-number {
+    font-size: 1.75rem;
+  }
+  
+  .alert-card .card-body .d-flex {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .alert-card .text-warning,
+  .alert-card .text-danger {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .dashboard-title {
+    font-size: 1.5rem;
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+  }
+  
+  .admin-card .card-body {
+    padding: 1rem;
+  }
+}

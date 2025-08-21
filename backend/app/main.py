@@ -9,12 +9,12 @@ from app.core.config import settings
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
-    description="澳洲宠物用品商店API",
+    description="Australian Pet Store API",
     version="1.0.0",
     openapi_url=f"{settings.API_V1_STR}/openapi.json"
 )
 
-# 设置CORS
+# Set up CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,
@@ -23,16 +23,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# API路由
+# API routes
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
-# 静态文件
-if os.path.exists("static"):
-    app.mount("/static", StaticFiles(directory="static"), name="static")
+# Static files
+import os
+static_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "static"))
+print(f"Looking for static files at: {static_dir}")
+print(f"Directory exists: {os.path.exists(static_dir)}")
+if os.path.exists(static_dir):
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
+    print("Static files mounted successfully")
 
 @app.get("/")
 def root():
-    return {"message": "欢迎使用澳洲宠物用品商店API"}
+    return {"message": "Welcome to Australian Pet Store API"}
 
 if __name__ == "__main__":
     uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True) 

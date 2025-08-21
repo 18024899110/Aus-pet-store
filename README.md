@@ -1,43 +1,43 @@
-# 澳洲宠物用品商店 (AuPets)
+# CY Pet Store
 
-一个完整的宠物用品电商网站，包含前端React应用和后端Python FastAPI服务。
+A complete pet supplies e-commerce website, including a React frontend application and a Python FastAPI backend service.
 
-## 项目结构
+## Project Structure
 
 ```
-Au_shop/
-├── frontend/             # React前端
-│   ├── public/           # 静态文件
-│   └── src/              # 源代码
-│       ├── assets/       # 资源文件
-│       ├── components/   # 组件
-│       ├── context/      # 上下文
-│       └── pages/        # 页面
-└── backend/              # Python FastAPI后端
-    ├── app/              # 应用代码
-    │   ├── api/          # API路由
-    │   ├── core/         # 核心配置
-    │   ├── db/           # 数据库
-    │   ├── models/       # 数据模型
-    │   ├── schemas/      # Pydantic模式
-    │   └── utils/        # 工具函数
-    └── static/           # 静态文件
+cy-pet-store/
+├── frontend/             # React Frontend
+│   ├── public/           # Static Files
+│   └── src/              # Source Code
+│       ├── assets/       # Assets
+│       ├── components/   # Components
+│       ├── context/      # Context
+│       └── pages/        # Pages
+└── backend/              # Python FastAPI Backend
+    ├── app/              # Application Code
+    │   ├── api/          # API Routes
+    │   ├── core/         # Core Configuration
+    │   ├── db/           # Database
+    │   ├── models/       # Data Models
+    │   ├── schemas/      # Pydantic Schemas
+    │   └── utils/        # Utility Functions
+    └── static/           # Static Files
 ```
 
-## 功能特点
+## Features
 
-- 响应式设计，适配各种设备
-- 用户注册和登录系统
-- 商品浏览和搜索
-- 商品分类
-- 购物车功能
-- 结账流程
-- 订单管理
-- 管理员后台
+- Responsive design, compatible with various devices
+- User registration and login system
+- Product browsing and search
+- Product categories
+- Shopping cart functionality
+- Checkout process
+- Order management
+- Admin dashboard
 
-## 技术栈
+## Tech Stack
 
-### 前端
+### Frontend
 
 - React
 - React Router
@@ -45,17 +45,17 @@ Au_shop/
 - Axios
 - Context API
 
-### 后端
+### Backend
 
 - Python
 - FastAPI
 - SQLAlchemy
 - Pydantic
-- JWT认证
+- JWT Authentication
 
-## 安装和运行
+## Installation and Running
 
-### 前端
+### Frontend
 
 ```bash
 cd frontend
@@ -63,7 +63,7 @@ npm install
 npm start
 ```
 
-### 后端
+### Backend
 
 ```bash
 cd backend
@@ -71,11 +71,11 @@ pip install -r requirements.txt
 python run.py
 ```
 
-## API文档
+## API Documentation
 
-启动后端服务后，可以访问 `http://localhost:8000/docs` 查看API文档。
+After starting the backend service, you can access `http://localhost:8000/docs` to view the API documentation.
 
-## 测试账户
+## Test Accounts
 
-- 管理员: admin@example.com / admin
-- 测试用户: test@example.com / password 
+- Administrator: admin@example.com / admin
+- Test User: test@example.com / password

@@ -20,18 +20,18 @@ def login(
     db: Session = Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends()
 ) -> Any:
     """
-    获取访问令牌
+    Get access token
     """
     user = db.query(User).filter(User.email == form_data.username).first()
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="邮箱或密码不正确",
+            detail="Invalid email or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
     if not user.is_active:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="用户未激活"
+            status_code=status.HTTP_400_BAD_REQUEST, detail="User account is inactive"
         )
     
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -46,17 +46,17 @@ def login(
 @router.post("/register", response_model=UserSchema)
 def register(*, db: Session = Depends(get_db), user_in: UserCreate) -> Any:
     """
-    注册新用户
+    Register new user
     """
-    # 检查邮箱是否已存在
+    # Check if email already exists
     user = db.query(User).filter(User.email == user_in.email).first()
     if user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="该邮箱已被注册",
+            detail="Email already registered",
         )
     
-    # 创建新用户
+    # Create new user
     from app.utils.security import get_password_hash
     user = User(
         email=user_in.email,

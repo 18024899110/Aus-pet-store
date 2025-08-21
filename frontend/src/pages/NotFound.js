@@ -9,26 +9,26 @@ const NotFound = () => {
     <div className="not-found-page">
       <Container className="text-center">
         <div className="error-code">404</div>
-        <h1 className="error-title">页面未找到</h1>
+        <h1 className="error-title">Page Not Found</h1>
         <p className="error-message">
-          抱歉，您访问的页面不存在或已被移除。
+          Sorry, the page you're looking for doesn't exist or has been removed.
         </p>
         <div className="error-actions">
           <Link to="/">
             <Button variant="primary" className="me-3">
               <FaHome className="me-2" />
-              返回首页
+              Go Home
             </Button>
           </Link>
           <Link to="/products">
             <Button variant="outline-primary">
               <FaSearch className="me-2" />
-              浏览商品
+              Browse Products
             </Button>
           </Link>
         </div>
         <div className="error-image">
-          <img src="/images/404-pet.png" alt="迷路的宠物" />
+          <img src="/images/404-pet.png" alt="Lost Pet" />
         </div>
       </Container>
     </div>

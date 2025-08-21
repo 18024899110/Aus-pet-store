@@ -22,13 +22,13 @@ def read_orders(
     current_user: User = Depends(get_current_active_user),
 ) -> Any:
     """
-    获取当前用户的订单列表
+    Get current user's order list
     """
     if current_user.is_admin:
-        # 管理员可以查看所有订单
+        # Admin can view all orders
         orders = db.query(Order).order_by(Order.created_at.desc()).offset(skip).limit(limit).all()
     else:
-        # 普通用户只能查看自己的订单
+        # Regular users can only view their own orders
         orders = db.query(Order).filter(
             Order.user_id == current_user.id
         ).order_by(Order.created_at.desc()).offset(skip).limit(limit).all()
@@ -43,20 +43,20 @@ def read_order(
     current_user: User = Depends(get_current_active_user),
 ) -> Any:
     """
-    通过ID获取订单详情
+    Get order details by ID
     """
     order = db.query(Order).filter(Order.id == order_id).first()
     if not order:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="订单不存在",
+            detail="Order not found",
         )
     
-    # 检查权限（只有管理员或订单所有者可以查看）
+    # Check permissions (only admin or order owner can view)
     if not current_user.is_admin and order.user_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="权限不足",
+            detail="Insufficient permissions",
         )
     
     return order
@@ -86,14 +86,14 @@ def create_order(
         if not product:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"商品ID {item.product_id} 不存在或不可用",
+                detail=f"Product ID {item.product_id} not found or not available",
             )
         
         # 检查库存是否足够
         if product.stock < item.quantity:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"商品 '{product.name}' 库存不足",
+                detail=f"Product '{product.name}' insufficient stock",
             )
         
         # 计算项目总价
@@ -173,7 +173,7 @@ def update_order_status(
     if not order:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="订单不存在",
+            detail="Order not found",
         )
     
     # 更新订单状态
@@ -198,21 +198,21 @@ def cancel_order(
     if not order:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="订单不存在",
+            detail="Order not found",
         )
     
     # 检查权限（只有管理员或订单所有者可以取消）
     if not current_user.is_admin and order.user_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="权限不足",
+            detail="Insufficient permissions",
         )
     
     # 只有待处理的订单可以取消
     if order.status != OrderStatus.PENDING:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="只有待处理的订单可以取消",
+            detail="Only pending orders can be cancelled",
         )
     
     # 取消订单
@@ -227,4 +227,4 @@ def cancel_order(
             db.add(product)
     
     db.commit()
-    return {"message": "订单已取消"} 
+    return {"message": "Order cancelled"} 

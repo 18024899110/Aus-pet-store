@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
 import './App.css';
 
-// 组件导入
+// Components
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ProtectedRoute from './components/ProtectedRoute';
 
-// 页面导入
+// Pages
 import Home from './pages/Home';
 import ProductList from './pages/ProductList';
 import ProductDetail from './pages/ProductDetail';
@@ -16,14 +18,24 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import NotFound from './pages/NotFound';
 
-// 上下文
+// Admin Pages
+import AdminLayout from './pages/admin/AdminLayout';
+import Dashboard from './pages/admin/Dashboard';
+import ProductManagement from './pages/admin/ProductManagement';
+import OrderManagement from './pages/admin/OrderManagement';
+import UserManagement from './pages/admin/UserManagement';
+import CategoryManagement from './pages/admin/CategoryManagement';
+import Analytics from './pages/admin/Analytics';
+
+// Context
 import { CartProvider } from './context/CartContext';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // 模拟加载过程
+    // Simulate loading process
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
@@ -33,31 +45,107 @@ function App() {
     return (
       <div className="loading-screen">
         <div className="spinner"></div>
-        <p>加载中...</p>
+        <p>Loading...</p>
       </div>
     );
   }
 
   return (
-    <CartProvider>
-      <div className="App">
-        <Header />
-        <main className="main-content">
+    <AuthProvider>
+      <CartProvider>
+        <div className="App">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/products" element={<ProductList />} />
-            <Route path="/products/:category" element={<ProductList />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
+            {/* Public Routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            
+            {/* Customer Routes */}
+            <Route path="/" element={
+              <div>
+                <Header />
+                <main className="main-content">
+                  <Home />
+                </main>
+                <Footer />
+              </div>
+            } />
+            <Route path="/products" element={
+              <div>
+                <Header />
+                <main className="main-content">
+                  <Container>
+                    <ProductList />
+                  </Container>
+                </main>
+                <Footer />
+              </div>
+            } />
+            <Route path="/products/:category" element={
+              <div>
+                <Header />
+                <main className="main-content">
+                  <Container>
+                    <ProductList />
+                  </Container>
+                </main>
+                <Footer />
+              </div>
+            } />
+            <Route path="/product/:id" element={
+              <div>
+                <Header />
+                <main className="main-content">
+                  <Container>
+                    <ProductDetail />
+                  </Container>
+                </main>
+                <Footer />
+              </div>
+            } />
+            <Route path="/cart" element={
+              <div>
+                <Header />
+                <main className="main-content">
+                  <Container>
+                    <Cart />
+                  </Container>
+                </main>
+                <Footer />
+              </div>
+            } />
+            <Route path="/checkout" element={
+              <ProtectedRoute>
+                <div>
+                  <Header />
+                  <main className="main-content">
+                    <Container>
+                      <Checkout />
+                    </Container>
+                  </main>
+                  <Footer />
+                </div>
+              </ProtectedRoute>
+            } />
+            
+            {/* Admin Routes */}
+            <Route path="/admin" element={
+              <ProtectedRoute requireAdmin>
+                <AdminLayout />
+              </ProtectedRoute>
+            }>
+              <Route index element={<Dashboard />} />
+              <Route path="products" element={<ProductManagement />} />
+              <Route path="orders" element={<OrderManagement />} />
+              <Route path="users" element={<UserManagement />} />
+              <Route path="categories" element={<CategoryManagement />} />
+              <Route path="analytics" element={<Analytics />} />
+            </Route>
+            
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </main>
-        <Footer />
-      </div>
-    </CartProvider>
+        </div>
+      </CartProvider>
+    </AuthProvider>
   );
 }
 

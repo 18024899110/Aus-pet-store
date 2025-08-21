@@ -11,7 +11,7 @@ const Header = () => {
   const { totalItems } = useContext(CartContext);
   const navigate = useNavigate();
 
-  // 监听滚动事件以改变导航栏样式
+  // Listen for scroll events to change navbar style
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -25,7 +25,7 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // 处理搜索提交
+  // Handle search submission
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -42,8 +42,8 @@ const Header = () => {
     >
       <Container>
         <Navbar.Brand as={Link} to="/" className="logo">
-          <img src="/logo.png" alt="AuPets Logo" className="logo-img" />
-          <span>AuPets</span>
+          <img src="/images/logo.png" alt="CY Pet Store Logo" className="logo-img" />
+          <span>CY Pet Store</span>
         </Navbar.Brand>
         
         <Navbar.Toggle aria-controls="basic-navbar-nav">
@@ -52,17 +52,17 @@ const Header = () => {
         
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto main-nav">
-            <Nav.Link as={Link} to="/">首页</Nav.Link>
-            <Nav.Link as={Link} to="/products">全部商品</Nav.Link>
-            <Nav.Link as={Link} to="/products/dog">狗狗用品</Nav.Link>
-            <Nav.Link as={Link} to="/products/cat">猫咪用品</Nav.Link>
-            <Nav.Link as={Link} to="/products/small-pet">小宠用品</Nav.Link>
+            <Nav.Link as={Link} to="/">Home</Nav.Link>
+            <Nav.Link as={Link} to="/products">All Products</Nav.Link>
+            <Nav.Link as={Link} to="/products/dog">Dog Supplies</Nav.Link>
+            <Nav.Link as={Link} to="/products/cat">Cat Supplies</Nav.Link>
+            <Nav.Link as={Link} to="/products/small-pet">Small Pet Supplies</Nav.Link>
           </Nav>
           
           <Form className="d-flex search-form" onSubmit={handleSearchSubmit}>
             <Form.Control
               type="search"
-              placeholder="搜索商品..."
+              placeholder="Search products..."
               className="me-2 search-input"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}

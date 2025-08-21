@@ -16,7 +16,7 @@ def read_user_me(
     current_user: User = Depends(get_current_active_user),
 ) -> Any:
     """
-    获取当前用户信息
+    Get current user information
     """
     return current_user
 
@@ -29,9 +29,9 @@ def update_user_me(
     current_user: User = Depends(get_current_active_user),
 ) -> Any:
     """
-    更新当前用户信息
+    Update current user information
     """
-    # 如果提供了新密码，则哈希处理
+    # If new password is provided, hash it
     if user_in.password:
         from app.utils.security import get_password_hash
         user_in_data = user_in.dict(exclude_unset=True)
@@ -40,7 +40,7 @@ def update_user_me(
     else:
         user_in_data = user_in.dict(exclude_unset=True, exclude={"password"})
     
-    # 更新用户信息
+    # Update user information
     for key, value in user_in_data.items():
         setattr(current_user, key, value)
     
@@ -58,7 +58,7 @@ def read_users(
     current_user: User = Depends(get_current_active_admin),
 ) -> Any:
     """
-    获取所有用户（仅管理员）
+    Get all users (Admin only)
     """
     users = db.query(User).offset(skip).limit(limit).all()
     return users
@@ -71,12 +71,12 @@ def read_user(
     current_user: User = Depends(get_current_active_admin),
 ) -> Any:
     """
-    通过ID获取用户（仅管理员）
+    Get user by ID (Admin only)
     """
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="用户不存在",
+            detail="User not found",
         )
     return user 

@@ -10,10 +10,10 @@ const Footer = () => {
       <Container>
         <Row className="footer-top">
           <Col md={4} className="footer-about">
-            <h5>关于我们</h5>
+            <h5>About Us</h5>
             <p>
-              AuPets是澳洲领先的宠物用品在线零售商，提供高品质的宠物食品、玩具、保健品和配件。
-              我们致力于为您的宠物提供最好的产品和服务。
+              CY Pet Store is a leading online pet supply retailer, offering high-quality pet food, toys, health products and accessories.
+              We are committed to providing the best products and services for your pets.
             </p>
             <div className="social-icons">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
@@ -32,35 +32,35 @@ const Footer = () => {
           </Col>
           
           <Col md={2} className="footer-links">
-            <h5>快速链接</h5>
+            <h5>Quick Links</h5>
             <ul>
-              <li><Link to="/">首页</Link></li>
-              <li><Link to="/products">全部商品</Link></li>
-              <li><Link to="/products/dog">狗狗用品</Link></li>
-              <li><Link to="/products/cat">猫咪用品</Link></li>
-              <li><Link to="/products/small-pet">小宠用品</Link></li>
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/products">All Products</Link></li>
+              <li><Link to="/products/dog">Dog Supplies</Link></li>
+              <li><Link to="/products/cat">Cat Supplies</Link></li>
+              <li><Link to="/products/small-pet">Small Pet Supplies</Link></li>
             </ul>
           </Col>
           
           <Col md={2} className="footer-links">
-            <h5>客户服务</h5>
+            <h5>Customer Service</h5>
             <ul>
-              <li><Link to="/contact">联系我们</Link></li>
-              <li><Link to="/faq">常见问题</Link></li>
-              <li><Link to="/shipping">配送信息</Link></li>
-              <li><Link to="/returns">退换政策</Link></li>
-              <li><Link to="/privacy">隐私政策</Link></li>
+              <li><Link to="/contact">Contact Us</Link></li>
+              <li><Link to="/faq">FAQ</Link></li>
+              <li><Link to="/shipping">Shipping Info</Link></li>
+              <li><Link to="/returns">Return Policy</Link></li>
+              <li><Link to="/privacy">Privacy Policy</Link></li>
             </ul>
           </Col>
           
           <Col md={4} className="footer-newsletter">
-            <h5>订阅我们的通讯</h5>
-            <p>获取最新产品信息、优惠活动和宠物护理小贴士。</p>
+            <h5>Subscribe to Our Newsletter</h5>
+            <p>Get the latest product information, promotions and pet care tips.</p>
             <Form className="newsletter-form">
               <Form.Group className="d-flex">
                 <Form.Control
                   type="email"
-                  placeholder="您的电子邮箱"
+                  placeholder="Your email address"
                   className="me-2"
                 />
                 <Button variant="primary" type="submit">
@@ -75,10 +75,10 @@ const Footer = () => {
         
         <Row className="footer-bottom">
           <Col md={6} className="copyright">
-            <p>&copy; {new Date().getFullYear()} AuPets. 保留所有权利。</p>
+            <p>&copy; {new Date().getFullYear()} CY Pet Store. All rights reserved.</p>
           </Col>
           <Col md={6} className="payment-methods text-md-end">
-            <img src="/payment-methods.png" alt="支付方式" />
+            <img src="/payment-methods.png" alt="Payment Methods" />
           </Col>
         </Row>
       </Container>

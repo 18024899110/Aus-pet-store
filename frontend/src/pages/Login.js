@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Container, Row, Col, Form, Button, Card, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaGoogle, FaFacebook, FaLock } from 'react-icons/fa';
+import { AuthContext } from '../context/AuthContext';
+import { CartContext } from '../context/CartContext';
 import './Login.css';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login, user } = useContext(AuthContext);
+  const { refreshCartFromServer } = useContext(CartContext) || {};
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -14,7 +18,18 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   
-  // 处理表单输入变化
+  // Redirect logged-in users to appropriate page
+  useEffect(() => {
+    if (user) {
+      if (user.is_admin) {
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
+    }
+  }, [user, navigate]);
+  
+  // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -23,13 +38,13 @@ const Login = () => {
     });
   };
   
-  // 处理登录表单提交
+  // Handle login form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // 基本表单验证
+    // Basic form validation
     if (!formData.email || !formData.password) {
-      setError('请填写所有必填字段');
+      setError('Please fill in all required fields');
       return;
     }
     
@@ -37,32 +52,36 @@ const Login = () => {
       setError('');
       setLoading(true);
       
-      // 这里应该是实际的API调用
-      // 例如: const response = await fetch('/api/auth/login', {...})
+      // Call AuthContext login method
+      const result = await login(formData.email, formData.password);
       
-      // 模拟API调用延迟
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // 模拟登录成功
-      if (formData.email === 'test@example.com' && formData.password === 'password') {
-        // 登录成功，重定向到首页
-        navigate('/');
+      if (result.success) {
+        // Refresh cart data after successful login
+        if (refreshCartFromServer) {
+          await refreshCartFromServer();
+        }
+        
+        // Redirect based on user role
+        if (user?.is_admin) {
+          navigate('/admin');
+        } else {
+          navigate('/');
+        }
       } else {
-        // 登录失败
-        setError('邮箱或密码不正确');
+        setError(result.error);
       }
     } catch (err) {
-      setError('登录时发生错误，请稍后再试');
       console.error('Login error:', err);
+      setError(err.message || 'Login failed, please check your email and password');
     } finally {
       setLoading(false);
     }
   };
   
-  // 处理社交媒体登录
+  // Handle social media login
   const handleSocialLogin = (provider) => {
-    // 这里应该是实际的社交媒体登录逻辑
-    console.log(`Login with ${provider}`);
+    // TODO: Implement social media login logic
+    setError(`${provider} login is not available yet`);
   };
   
   return (
@@ -73,33 +92,33 @@ const Login = () => {
             <Card className="login-card">
               <Card.Body>
                 <div className="text-center mb-4">
-                  <h2 className="login-title">登录</h2>
-                  <p className="login-subtitle">登录您的账户以继续</p>
+                  <h2 className="login-title">Login</h2>
+                  <p className="login-subtitle">Sign in to your account to continue</p>
                 </div>
                 
                 {error && <Alert variant="danger">{error}</Alert>}
                 
                 <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-3">
-                    <Form.Label>电子邮箱</Form.Label>
+                    <Form.Label>Email</Form.Label>
                     <Form.Control
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      placeholder="请输入您的电子邮箱"
+                      placeholder="Enter your email address"
                       required
                     />
                   </Form.Group>
                   
                   <Form.Group className="mb-3">
-                    <Form.Label>密码</Form.Label>
+                    <Form.Label>Password</Form.Label>
                     <Form.Control
                       type="password"
                       name="password"
                       value={formData.password}
                       onChange={handleInputChange}
-                      placeholder="请输入您的密码"
+                      placeholder="Enter your password"
                       required
                     />
                   </Form.Group>
@@ -109,12 +128,12 @@ const Login = () => {
                       type="checkbox"
                       id="remember-me"
                       name="rememberMe"
-                      label="记住我"
+                      label="Remember me"
                       checked={formData.rememberMe}
                       onChange={handleInputChange}
                     />
                     <Link to="/forgot-password" className="forgot-password-link">
-                      忘记密码?
+                      Forgot Password?
                     </Link>
                   </div>
                   
@@ -124,12 +143,12 @@ const Login = () => {
                     className="login-btn"
                     disabled={loading}
                   >
-                    {loading ? '登录中...' : '登录'}
+                    {loading ? 'Signing in...' : 'Sign In'}
                   </Button>
                 </Form>
                 
                 <div className="social-login-divider">
-                  <span>或通过以下方式登录</span>
+                  <span>Or sign in with</span>
                 </div>
                 
                 <div className="social-login-buttons">
@@ -153,17 +172,17 @@ const Login = () => {
                 
                 <div className="secure-login-note">
                   <FaLock className="me-2" />
-                  <span>安全登录保障</span>
+                  <span>Secure login protected</span>
                 </div>
                 
                 <div className="register-link">
-                  还没有账户? <Link to="/register">立即注册</Link>
+                  Don't have an account? <Link to="/register">Sign up now</Link>
                 </div>
               </Card.Body>
             </Card>
             
             <div className="login-help">
-              <p>需要帮助? <Link to="/contact">联系我们</Link></p>
+              <p>Need help? <Link to="/contact">Contact us</Link></p>
             </div>
           </Col>
         </Row>

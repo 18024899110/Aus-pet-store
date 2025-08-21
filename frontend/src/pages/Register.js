@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, Card, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaGoogle, FaFacebook, FaLock } from 'react-icons/fa';
+import { authService } from '../services';
 import './Register.css';
 
 const Register = () => {
@@ -41,6 +42,11 @@ const Register = () => {
       return;
     }
     
+    if (formData.password.length < 8) {
+      setError('密码长度至少为8个字符');
+      return;
+    }
+    
     if (!formData.agreeTerms) {
       setError('请同意服务条款和隐私政策');
       return;
@@ -50,18 +56,22 @@ const Register = () => {
       setError('');
       setLoading(true);
       
-      // 这里应该是实际的API调用
-      // 例如: const response = await fetch('/api/auth/register', {...})
+      // 调用真实的注册API
+      const userData = {
+        email: formData.email,
+        password: formData.password,
+        full_name: `${formData.firstName} ${formData.lastName}`,
+        first_name: formData.firstName,
+        last_name: formData.lastName
+      };
       
-      // 模拟API调用延迟
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await authService.register(userData);
       
-      // 模拟注册成功
       // 注册成功，重定向到登录页面
       navigate('/login', { state: { message: '注册成功，请登录' } });
     } catch (err) {
-      setError('注册时发生错误，请稍后再试');
       console.error('Registration error:', err);
+      setError(err.message || '注册失败，请检查您的信息或稍后重试');
     } finally {
       setLoading(false);
     }
@@ -69,8 +79,8 @@ const Register = () => {
   
   // 处理社交媒体注册
   const handleSocialRegister = (provider) => {
-    // 这里应该是实际的社交媒体注册逻辑
-    console.log(`Register with ${provider}`);
+    // TODO: 实现社交媒体注册逻辑
+    setError(`${provider} 注册功能暂未开放`);
   };
   
   return (

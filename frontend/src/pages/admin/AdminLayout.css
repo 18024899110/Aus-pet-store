@@ -1,0 +1,244 @@
+.admin-layout {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.mobile-navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1030;
+}
+
+.admin-main {
+  margin-top: 0;
+}
+
+@media (max-width: 991.98px) {
+  .admin-main {
+    margin-top: 56px;
+  }
+}
+
+.sidebar-col {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1020;
+  overflow-y: auto;
+}
+
+.admin-sidebar {
+  height: 100vh;
+  background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  padding: 1.5rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.sidebar-header h4 {
+  margin: 0;
+  font-weight: 600;
+  color: #ecf0f1;
+}
+
+.admin-info {
+  margin-top: 0.5rem;
+  opacity: 0.8;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 1rem 0;
+}
+
+.sidebar-nav-link {
+  display: flex !important;
+  align-items: center;
+  padding: 0.75rem 1.5rem !important;
+  color: #bdc3c7 !important;
+  text-decoration: none !important;
+  transition: all 0.3s ease;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+.sidebar-nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+}
+
+.sidebar-nav-link.active {
+  background-color: #4a9e5c !important;
+  color: white !important;
+}
+
+.nav-icon {
+  width: 18px;
+  margin-right: 0.75rem;
+}
+
+.back-to-home {
+  background-color: rgba(74, 158, 92, 0.2) !important;
+  border: 1px solid rgba(74, 158, 92, 0.3) !important;
+  margin: 0 0.5rem 1rem 0.5rem !important;
+  border-radius: 0.375rem !important;
+}
+
+.back-to-home:hover {
+  background-color: #4a9e5c !important;
+  border-color: #4a9e5c !important;
+  color: white !important;
+  transform: translateY(-1px);
+}
+
+.sidebar-divider {
+  border-color: rgba(255, 255, 255, 0.1);
+  margin: 0 1rem 1rem 1rem;
+}
+
+.sidebar-footer {
+  padding: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logout-btn {
+  width: 100%;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  color: #bdc3c7 !important;
+}
+
+.logout-btn:hover {
+  background-color: #e74c3c !important;
+  border-color: #e74c3c !important;
+  color: white !important;
+}
+
+.main-content {
+  margin-left: 0;
+  padding: 0;
+}
+
+@media (min-width: 992px) {
+  .main-content {
+    margin-left: 25%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .main-content {
+    margin-left: 16.666667%;
+  }
+}
+
+.content-wrapper {
+  padding: 2rem;
+  min-height: calc(100vh - 4rem);
+}
+
+@media (max-width: 991.98px) {
+  .content-wrapper {
+    padding: 1rem;
+    min-height: calc(100vh - 56px - 2rem);
+  }
+}
+
+/* Mobile Offcanvas Styles */
+.offcanvas {
+  background: transparent !important;
+}
+
+.offcanvas .admin-sidebar {
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* Dashboard Cards */
+.admin-card {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.card-header-custom {
+  background: linear-gradient(45deg, #4a9e5c, #3d8a4e);
+  color: white;
+  border: none;
+  font-weight: 600;
+}
+
+/* Table Styles */
+.admin-table {
+  background: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.admin-table .table {
+  margin: 0;
+}
+
+.admin-table .table th {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+  font-weight: 600;
+  color: #495057;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action-buttons .btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* Status Badges */
+.status-badge {
+  font-size: 0.75rem;
+  padding: 0.35em 0.65em;
+}
+
+/* 管理员页面产品图片样式 */
+.product-thumbnail {
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+  object-fit: cover;
+  object-position: center;
+}
+
+.admin-card .table img {
+  max-width: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .content-wrapper {
+    padding: 0.5rem;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .action-buttons .btn {
+    font-size: 0.75rem;
+  }
+}

@@ -1,6 +1,6 @@
 from typing import Optional, List
 from datetime import datetime
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 
 
 # 分类基本模式
@@ -82,6 +82,19 @@ class Product(ProductInDBBase):
 # 返回给API的产品属性（包含分类信息）
 class ProductWithCategory(Product):
     category: Category
+    image_url: Optional[str] = None
+    
+    @validator('image_url', pre=False, always=True)
+    def generate_image_url(cls, v, values):
+        """生成完整的图片URL"""
+        image_filename = values.get('image')
+        if not image_filename:
+            return "http://localhost:8000/static/images/products/placeholder.svg"
+        
+        if image_filename.startswith(('http://', 'https://')):
+            return image_filename
+        
+        return f"http://localhost:8000/static/images/products/{image_filename}"
 
 
 # 购物车项目基本模式

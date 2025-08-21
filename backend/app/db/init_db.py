@@ -10,52 +10,52 @@ from app.utils.security import get_password_hash
 
 logger = logging.getLogger(__name__)
 
-# 初始化数据库表
+# Initialize database tables
 def init_db(db: Session) -> None:
-    # 创建所有表
+    # Create all tables
     Base.metadata.create_all(bind=engine)
     
-    # 检查是否已有管理员用户
+    # Check if admin user already exists
     admin_user = db.query(User).filter(User.email == settings.ADMIN_EMAIL).first()
     if not admin_user:
-        # 创建管理员用户
+        # Create admin user
         admin_user = User(
             email=settings.ADMIN_EMAIL,
             hashed_password=get_password_hash(settings.ADMIN_PASSWORD),
-            full_name="管理员",
+            full_name="Administrator",
             is_admin=True,
             is_active=True
         )
         db.add(admin_user)
         db.commit()
-        logger.info("已创建管理员用户")
+        logger.info("Admin user created")
     
-    # 检查是否已有商品分类
+    # Check if product categories already exist
     categories_count = db.query(Category).count()
     if categories_count == 0:
-        # 创建基本分类
+        # Create basic categories
         categories = [
-            Category(name="狗狗用品", slug="dog"),
-            Category(name="猫咪用品", slug="cat"),
-            Category(name="小宠用品", slug="small-pet"),
+            Category(name="Dog Supplies", slug="dog"),
+            Category(name="Cat Supplies", slug="cat"),
+            Category(name="Small Pet Supplies", slug="small-pet"),
         ]
         db.add_all(categories)
         db.commit()
-        logger.info("已创建基本商品分类")
+        logger.info("Basic product categories created")
     
-    # 检查是否已有示例商品
+    # Check if sample products already exist
     products_count = db.query(Product).count()
     if products_count == 0:
-        # 获取分类
+        # Get categories
         dog_category = db.query(Category).filter(Category.slug == "dog").first()
         cat_category = db.query(Category).filter(Category.slug == "cat").first()
         small_pet_category = db.query(Category).filter(Category.slug == "small-pet").first()
         
-        # 创建示例商品
+        # Create sample products
         products = [
             Product(
-                name="优质狗粮 10kg",
-                description="高品质狗粮，适合所有成年犬。富含优质蛋白质和必要的维生素，确保您的爱犬健康成长。",
+                name="Premium Dog Food 10kg",
+                description="High-quality dog food suitable for all adult dogs. Rich in premium protein and essential vitamins to ensure your beloved dog's healthy growth.",
                 price=89.99,
                 stock=50,
                 image="product1.jpg",
@@ -63,8 +63,8 @@ def init_db(db: Session) -> None:
                 is_active=True
             ),
             Product(
-                name="猫咪磨爪玩具",
-                description="耐用猫咪磨爪玩具，保护您的家具。",
+                name="Cat Scratching Toy",
+                description="Durable cat scratching toy to protect your furniture.",
                 price=29.99,
                 stock=100,
                 image="product2.jpg",
@@ -72,8 +72,8 @@ def init_db(db: Session) -> None:
                 is_active=True
             ),
             Product(
-                name="宠物自动喂食器",
-                description="智能宠物喂食器，可定时定量。",
+                name="Pet Automatic Feeder",
+                description="Smart pet feeder with scheduled feeding capabilities.",
                 price=129.99,
                 stock=30,
                 image="product3.jpg",
@@ -81,8 +81,8 @@ def init_db(db: Session) -> None:
                 is_active=True
             ),
             Product(
-                name="猫咪营养膏",
-                description="提供猫咪所需的全面营养。",
+                name="Cat Nutrition Paste",
+                description="Provides comprehensive nutrition for cats.",
                 price=19.99,
                 stock=80,
                 image="product4.jpg",
@@ -90,8 +90,8 @@ def init_db(db: Session) -> None:
                 is_active=True
             ),
             Product(
-                name="狗狗训练零食",
-                description="适合训练的美味零食，狗狗喜爱。",
+                name="Dog Training Treats",
+                description="Delicious treats perfect for training, dogs love them.",
                 price=15.99,
                 stock=120,
                 image="product5.jpg",
@@ -99,8 +99,8 @@ def init_db(db: Session) -> None:
                 is_active=True
             ),
             Product(
-                name="猫咪舒适窝",
-                description="柔软舒适的猫窝，让猫咪有自己的空间。",
+                name="Cat Comfortable Bed",
+                description="Soft and comfortable cat bed, giving cats their own space.",
                 price=45.99,
                 stock=40,
                 image="product6.jpg",
@@ -108,8 +108,8 @@ def init_db(db: Session) -> None:
                 is_active=True
             ),
             Product(
-                name="狗狗玩具球",
-                description="耐咬耐用的狗狗玩具球。",
+                name="Dog Toy Ball",
+                description="Durable and chew-resistant dog toy ball.",
                 price=12.99,
                 stock=150,
                 image="product7.jpg",
@@ -117,8 +117,8 @@ def init_db(db: Session) -> None:
                 is_active=True
             ),
             Product(
-                name="小宠饲料",
-                description="适合仓鼠、兔子等小宠物的营养饲料。",
+                name="Small Pet Food",
+                description="Nutritious food suitable for small pets like hamsters and rabbits.",
                 price=9.99,
                 stock=100,
                 image="product8.jpg",
@@ -128,4 +128,4 @@ def init_db(db: Session) -> None:
         ]
         db.add_all(products)
         db.commit()
-        logger.info("已创建示例商品") 
+        logger.info("Sample products created") 

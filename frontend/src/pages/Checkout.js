@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react';
-import { Container, Row, Col, Form, Button, Card, ListGroup } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Card, ListGroup, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaLock, FaCreditCard, FaPaypal, FaAlipay, FaArrowLeft } from 'react-icons/fa';
 import { CartContext } from '../context/CartContext';
+import { orderService, authService } from '../services';
 import './Checkout.css';
 
 const Checkout = () => {
@@ -28,6 +29,8 @@ const Checkout = () => {
   });
   
   const [validated, setValidated] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState('');
   
@@ -58,7 +61,7 @@ const Checkout = () => {
   const { subtotal, shipping, tax, orderTotal } = calculateOrderTotal();
   
   // 处理表单提交
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     const form = e.currentTarget;
@@ -68,33 +71,71 @@ const Checkout = () => {
       return;
     }
     
-    // 模拟订单提交
-    setOrderPlaced(true);
+    // 检查用户是否登录
+    if (!authService.isAuthenticated()) {
+      setError('请先登录后再下单');
+      return;
+    }
     
-    // 生成随机订单ID
-    const randomOrderId = 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
-    setOrderId(randomOrderId);
-    
-    // 清空购物车
-    clearCart();
-    
-    // 3秒后跳转到订单确认页面
-    setTimeout(() => {
-      navigate('/order-confirmation', { 
-        state: { 
-          orderId: randomOrderId,
-          orderTotal: orderTotal,
-          shippingInfo: {
-            name: `${formData.firstName} ${formData.lastName}`,
-            address: formData.address,
-            city: formData.city,
-            state: formData.state,
-            postcode: formData.postcode,
-            country: formData.country
-          }
-        } 
-      });
-    }, 3000);
+    try {
+      setLoading(true);
+      setError('');
+      
+      // 准备订单数据
+      const orderData = {
+        items: cart.map(item => ({
+          product_id: item.id,
+          quantity: item.quantity,
+          unit_price: item.price
+        })),
+        shipping_address: {
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          phone: formData.phone,
+          address: formData.address,
+          city: formData.city,
+          state: formData.state,
+          postal_code: formData.postcode,
+          country: formData.country
+        },
+        payment_method: formData.paymentMethod,
+        total_amount: orderTotal,
+        notes: ''
+      };
+      
+      // 提交订单
+      const order = await orderService.createOrder(orderData);
+      
+      setOrderPlaced(true);
+      setOrderId(order.order_number || order.id.toString());
+      
+      // 清空购物车
+      await clearCart();
+      
+      // 3秒后跳转到订单确认页面
+      setTimeout(() => {
+        navigate('/order-confirmation', { 
+          state: { 
+            orderId: order.order_number || order.id.toString(),
+            orderTotal: orderTotal,
+            shippingInfo: {
+              name: `${formData.firstName} ${formData.lastName}`,
+              address: formData.address,
+              city: formData.city,
+              state: formData.state,
+              postcode: formData.postcode,
+              country: formData.country
+            }
+          } 
+        });
+      }, 3000);
+      
+    } catch (error) {
+      console.error('订单提交失败:', error);
+      setError(error.message || '订单提交失败，请稍后重试');
+    } finally {
+      setLoading(false);
+    }
   };
   
   // 如果购物车为空，重定向到购物车页面
@@ -128,6 +169,13 @@ const Checkout = () => {
     <div className="checkout-page">
       <Container>
         <h1 className="page-title">结账</h1>
+        
+        {/* 错误提示 */}
+        {error && (
+          <Alert variant="danger" className="mb-4">
+            {error}
+          </Alert>
+        )}
         
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Row>
@@ -426,9 +474,9 @@ const Checkout = () => {
                     返回购物车
                   </Button>
                 </Link>
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" disabled={loading}>
                   <FaLock className="me-2" />
-                  确认支付
+                  {loading ? '正在处理...' : '确认支付'}
                 </Button>
               </div>
             </Col>
@@ -444,7 +492,7 @@ const Checkout = () => {
                     {cart.map(item => (
                       <ListGroup.Item key={item.id} className="order-item">
                         <div className="item-image">
-                          <img src={item.image} alt={item.name} />
+                          <img src={item.image_url || item.image || '/images/placeholder.svg'} alt={item.name} />
                         </div>
                         <div className="item-details">
                           <div className="item-name">{item.name}</div>

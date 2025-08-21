@@ -3,7 +3,23 @@
     "allow": [
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(pip install:*)",
+      "Bash(python:*)",
+      "Bash(npm start)",
+      "Bash(set PORT=3001)",
+      "Bash(taskkill:*)",
+      "Bash(curl:*)",
+      "Bash(mkdir:*)",
+      "Bash(for i in {3..8})",
+      "Bash(do cp \"frontend/public/images/placeholder.svg\" \"frontend/public/images/product$i.jpg\")",
+      "Bash(done)",
+      "Bash(cp:*)",
+      "Bash(npm install:*)",
+      "Bash(timeout:*)",
+      "Bash(rg:*)",
+      "Bash(mv:*)",
+      "Bash(start http://localhost:3000)"
     ],
     "deny": []
   }

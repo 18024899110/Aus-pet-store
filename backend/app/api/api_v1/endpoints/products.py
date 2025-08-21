@@ -1,6 +1,6 @@
 from typing import Any, List, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status, File, UploadFile
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
@@ -8,6 +8,7 @@ from app.models.product import Product
 from app.models.user import User
 from app.schemas.product import Product as ProductSchema, ProductCreate, ProductUpdate, ProductWithCategory
 from app.api.deps import get_current_active_user, get_current_active_admin
+from app.utils.image_utils import image_manager
 
 router = APIRouter()
 
@@ -23,11 +24,11 @@ def read_products(
     max_price: Optional[float] = None,
 ) -> Any:
     """
-    获取商品列表
+    Get product list
     """
     query = db.query(Product)
     
-    # 应用筛选条件
+    # Apply filters
     if category_id:
         query = query.filter(Product.category_id == category_id)
     
@@ -40,10 +41,10 @@ def read_products(
     if max_price is not None:
         query = query.filter(Product.price <= max_price)
     
-    # 只返回激活的商品
+    # Only return active products
     query = query.filter(Product.is_active == True)
     
-    # 排序和分页
+    # Sort and paginate
     products = query.order_by(Product.id).offset(skip).limit(limit).all()
     return products
 
@@ -54,18 +55,18 @@ def read_product(
     db: Session = Depends(get_db),
 ) -> Any:
     """
-    通过ID获取商品详情
+    Get product details by ID
     """
     product = db.query(Product).filter(Product.id == product_id).first()
     if not product:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="商品不存在",
+            detail="Product not found",
         )
     if not product.is_active:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="商品不可用",
+            detail="Product not available",
         )
     return product
 
@@ -78,7 +79,7 @@ def create_product(
     current_user: User = Depends(get_current_active_admin),
 ) -> Any:
     """
-    创建新商品（仅管理员）
+    Create new product (Admin only)
     """
     product = Product(**product_in.dict())
     db.add(product)
@@ -96,16 +97,16 @@ def update_product(
     current_user: User = Depends(get_current_active_admin),
 ) -> Any:
     """
-    更新商品（仅管理员）
+    Update product (Admin only)
     """
     product = db.query(Product).filter(Product.id == product_id).first()
     if not product:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="商品不存在",
+            detail="Product not found",
         )
     
-    # 更新商品信息
+    # Update product information
     update_data = product_in.dict(exclude_unset=True)
     for key, value in update_data.items():
         setattr(product, key, value)
@@ -124,18 +125,43 @@ def delete_product(
     current_user: User = Depends(get_current_active_admin),
 ) -> Any:
     """
-    删除商品（仅管理员）
+    Delete product (Admin only)
     """
     product = db.query(Product).filter(Product.id == product_id).first()
     if not product:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="商品不存在",
+            detail="Product not found",
         )
     
-    # 软删除（将is_active设为False）
+    # Soft delete (set is_active to False)
     product.is_active = False
     db.add(product)
     db.commit()
     db.refresh(product)
-    return product 
+    return product
+
+
+@router.post("/upload-image")
+async def upload_product_image(
+    file: UploadFile = File(...),
+    current_user: User = Depends(get_current_active_admin),
+) -> Any:
+    """
+    Upload product image (Admin only)
+    """
+    try:
+        # Save the uploaded image
+        filename = await image_manager.save_product_image(file)
+        image_url = image_manager.get_image_url(filename)
+        
+        return {
+            "message": "Image uploaded successfully",
+            "filename": filename,
+            "image_url": image_url
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        ) 

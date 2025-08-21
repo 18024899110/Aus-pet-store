@@ -1,0 +1,143 @@
+/* Metric Cards */
+.metric-card .card-body {
+  padding: 1.5rem;
+}
+
+.metric-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.metric-details {
+  flex: 1;
+}
+
+.metric-number {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #2c3e50;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.metric-label {
+  color: #7f8c8d;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.metric-change {
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.metric-change.positive {
+  color: #27ae60;
+}
+
+.metric-change.negative {
+  color: #e74c3c;
+}
+
+.metric-change svg {
+  margin-right: 0.25rem;
+  font-size: 0.75rem;
+}
+
+/* Chart containers */
+.admin-card canvas {
+  max-height: 400px;
+}
+
+/* Performance list items */
+.performance-item {
+  display: flex;
+  justify-content: between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.performance-item:last-child {
+  border-bottom: none;
+}
+
+.performance-rank {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.875rem;
+  margin-right: 1rem;
+  color: #495057;
+}
+
+.performance-details {
+  flex: 1;
+}
+
+.performance-name {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.performance-meta {
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.performance-value {
+  text-align: right;
+  font-weight: 600;
+}
+
+.performance-change {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .metric-card .card-body {
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .metric-card .card-body .d-flex {
+    flex-direction: column;
+    align-items: center !important;
+  }
+  
+  .metric-icon {
+    margin-right: 0;
+    margin-bottom: 0.75rem;
+  }
+  
+  .metric-number {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .metric-number {
+    font-size: 1.25rem;
+  }
+  
+  .admin-card canvas {
+    max-height: 300px;
+  }
+}

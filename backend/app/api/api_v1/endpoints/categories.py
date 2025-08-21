@@ -19,7 +19,7 @@ def read_categories(
     limit: int = 100,
 ) -> Any:
     """
-    获取分类列表
+    Get category list
     """
     categories = db.query(Category).filter(Category.is_active == True).offset(skip).limit(limit).all()
     return categories
@@ -31,18 +31,18 @@ def read_category(
     db: Session = Depends(get_db),
 ) -> Any:
     """
-    通过ID获取分类详情
+    Get category details by ID
     """
     category = db.query(Category).filter(Category.id == category_id).first()
     if not category:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="分类不存在",
+            detail="Category not found",
         )
     if not category.is_active:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="分类不可用",
+            detail="Category not available",
         )
     return category
 
@@ -55,14 +55,14 @@ def create_category(
     current_user: User = Depends(get_current_active_admin),
 ) -> Any:
     """
-    创建新分类（仅管理员）
+    Create new category (Admin only)
     """
-    # 检查slug是否已存在
+    # Check if slug already exists
     existing_category = db.query(Category).filter(Category.slug == category_in.slug).first()
     if existing_category:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="该分类标识已存在",
+            detail="Category slug already exists",
         )
     
     category = Category(**category_in.dict())
@@ -81,25 +81,25 @@ def update_category(
     current_user: User = Depends(get_current_active_admin),
 ) -> Any:
     """
-    更新分类（仅管理员）
+    Update category (Admin only)
     """
     category = db.query(Category).filter(Category.id == category_id).first()
     if not category:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="分类不存在",
+            detail="Category not found",
         )
     
-    # 如果更新了slug，检查是否与其他分类冲突
+    # If slug is updated, check for conflicts with other categories
     if category_in.slug and category_in.slug != category.slug:
         existing_category = db.query(Category).filter(Category.slug == category_in.slug).first()
         if existing_category:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="该分类标识已存在",
+                detail="Category slug already exists",
             )
     
-    # 更新分类信息
+    # Update category information
     update_data = category_in.dict(exclude_unset=True)
     for key, value in update_data.items():
         setattr(category, key, value)
@@ -118,23 +118,23 @@ def delete_category(
     current_user: User = Depends(get_current_active_admin),
 ) -> Any:
     """
-    删除分类（仅管理员）
+    Delete category (Admin only)
     """
     category = db.query(Category).filter(Category.id == category_id).first()
     if not category:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="分类不存在",
+            detail="Category not found",
         )
     
-    # 检查是否有商品使用此分类
+    # Check if any products use this category
     if category.products:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="无法删除已有商品的分类",
+            detail="Cannot delete category with existing products",
         )
     
-    # 软删除（将is_active设为False）
+    # Soft delete (set is_active to False)
     category.is_active = False
     db.add(category)
     db.commit()

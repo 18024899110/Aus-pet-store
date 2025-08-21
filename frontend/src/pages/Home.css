@@ -1,13 +1,34 @@
+/* 首页整体样式 */
+.home-page {
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* 轮播图容器 - 全屏显示 */
+.home-carousel-wrapper {
+  width: 100vw;
+  position: relative;
+  margin-bottom: 40px;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+}
+
 /* 轮播图样式 */
 .home-carousel {
-  margin-bottom: 40px;
+  width: 100%;
 }
 
 .carousel-image {
-  height: 500px;
+  height: 600px;
   background-size: cover;
   background-position: center;
   position: relative;
+  transition: transform 0.5s ease;
+  overflow: hidden;
+}
+
+.carousel-image:hover {
+  transform: scale(1.05);
 }
 
 .carousel-image::before {
@@ -22,6 +43,13 @@
 
 .carousel-caption {
   bottom: 100px;
+  left: 0;
+  right: 0;
+}
+
+.carousel-caption .container {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .carousel-caption h2 {
@@ -37,9 +65,18 @@
 
 /* 服务特点样式 */
 .services-section {
+  width: 100vw;
   padding: 50px 0;
   background-color: #f8f9fa;
   margin-bottom: 40px;
+  position: relative;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+}
+
+.services-section .container {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .service-item {
@@ -64,7 +101,7 @@
 
 /* 分类样式 */
 .categories-section {
-  padding: 40px 0;
+  padding: 40px 15px;
   margin-bottom: 40px;
 }
 
@@ -80,6 +117,10 @@
   transform: translateY(-5px);
 }
 
+.category-card:hover .category-image {
+  transform: scale(1.05);
+}
+
 .category-image {
   height: 250px;
   background-size: cover;
@@ -88,6 +129,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.5s ease;
+  overflow: hidden;
 }
 
 .category-image::before {
@@ -110,7 +153,7 @@
 
 /* 热门商品样式 */
 .featured-products-section {
-  padding: 40px 0;
+  padding: 40px 15px;
   margin-bottom: 40px;
 }
 
@@ -129,11 +172,14 @@
 .product-image-wrapper {
   height: 200px;
   overflow: hidden;
+  position: relative;
 }
 
 .product-image {
+  width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   transition: transform 0.5s ease;
 }
 
@@ -172,9 +218,45 @@
   justify-content: space-between;
 }
 
+/* White background gray text button */
+.btn-white-gray {
+  background-color: white;
+  color: var(--neutral-600);
+  border: none !important;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-white-gray:hover {
+  background-color: var(--neutral-50);
+  color: var(--neutral-700);
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-white-gray:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(161, 169, 183, 0.12);
+}
+
+.btn-white-gray.btn-sm {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.btn-white-gray.btn-lg {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.125rem;
+}
+
 /* 促销广告样式 */
 .promo-section {
-  padding: 40px 0;
+  padding: 40px 15px;
   margin-bottom: 40px;
 }
 
@@ -220,7 +302,7 @@
 /* 响应式调整 */
 @media (max-width: 992px) {
   .carousel-image {
-    height: 400px;
+    height: 500px;
   }
   
   .carousel-caption {
@@ -233,8 +315,20 @@
 }
 
 @media (max-width: 768px) {
+  /* 所有section在移动设备上的内边距调整 */
+  .categories-section,
+  .featured-products-section,
+  .promo-section {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  .services-section {
+    padding: 30px 10px;
+  }
+  
   .carousel-image {
-    height: 300px;
+    height: 400px;
   }
   
   .carousel-caption {
@@ -252,4 +346,13 @@
   .promo-card {
     height: 200px;
   }
-} 
+  
+  .product-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .product-buttons .btn {
+    width: 100%;
+  }
+}

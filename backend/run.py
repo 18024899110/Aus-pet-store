@@ -13,11 +13,11 @@ def init() -> None:
 
 
 def main() -> None:
-    logger.info("初始化数据库...")
+    logger.info("Initializing database...")
     init()
-    logger.info("数据库初始化完成")
+    logger.info("Database initialization completed")
     
-    logger.info("启动API服务器...")
+    logger.info("Starting API server...")
     uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
 
 
