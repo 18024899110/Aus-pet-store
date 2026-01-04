@@ -1,7 +1,7 @@
 // Application configuration
 export const config = {
   // API configuration
-  API_BASE_URL: process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1',
+  API_BASE_URL: process.env.REACT_APP_API_URL || 'https://cy-pet-backend.up.railway.app/api/v1',
   
   // Request timeout (milliseconds)
   REQUEST_TIMEOUT: 30000,
