@@ -12,18 +12,16 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 60 * 24 * 8))
     
     # CORS设置 - 支持生产环境域名
-    CORS_ORIGINS: List[str] = os.getenv(
-        "CORS_ORIGINS", 
-        "http://localhost,http://localhost:3000,https://your-app.vercel.app"
-    ).split(",")
-    
+    CORS_ORIGINS: Union[str, List[str]] = "http://localhost,http://localhost:3000,https://your-app.vercel.app"
+
     @validator("CORS_ORIGINS", pre=True)
-    def assemble_cors_origins(cls, v: Union[str, List[str]]) -> Union[List[str], str]:
-        if isinstance(v, str) and not v.startswith("["):
-            return [i.strip() for i in v.split(",")]
-        elif isinstance(v, (list, str)):
+    def assemble_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:
+        if isinstance(v, str):
+            # 如果是逗号分隔的字符串，分割它
+            return [i.strip() for i in v.split(",") if i.strip()]
+        elif isinstance(v, list):
             return v
-        raise ValueError(v)
+        raise ValueError(f"Invalid CORS_ORIGINS value: {v}")
     
     # 数据库设置
     SQLALCHEMY_DATABASE_URI: str = os.getenv("DATABASE_URL", "sqlite:///./cypetstore.db")
