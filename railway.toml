@@ -2,7 +2,7 @@
 builder = "nixpacks"
 
 [deploy]
-startCommand = "cd backend && bash start.sh"
+startCommand = "bash backend/start.sh"
 
 [variables]
 PYTHONPATH = "/app/backend:/app"
