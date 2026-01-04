@@ -7,25 +7,25 @@ export const authService = {
     formData.append('username', credentials.email); // FastAPI OAuth2PasswordRequestForm 使用 username 字段
     formData.append('password', credentials.password);
 
-    const response = await ApiService.postForm('/auth/login', formData);
-    
+    const response = await ApiService.postForm('/auth/login/', formData);
+
     // 保存token到localStorage (使用一致的key)
     if (response.access_token) {
       localStorage.setItem('auth_token', response.access_token);
       localStorage.setItem('token_type', response.token_type);
     }
-    
+
     return response;
   },
 
   // 用户注册
   async register(userData) {
-    return ApiService.post('/auth/register', userData);
+    return ApiService.post('/auth/register/', userData);
   },
 
   // 获取当前用户信息
   async getCurrentUser() {
-    return ApiService.get('/users/me');
+    return ApiService.get('/users/me/');
   },
 
   // 获取用户档案 (别名方法)

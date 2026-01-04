@@ -24,26 +24,26 @@ export const productService = {
       queryParams.limit = params.limit;
     }
 
-    return ApiService.get('/products', queryParams);
+    return ApiService.get('/products/', queryParams);
   },
 
   // 获取单个产品详情
   async getProduct(productId) {
-    return ApiService.get(`/products/${productId}`);
+    return ApiService.get(`/products/${productId}/`);
   },
 
   // 创建产品（管理员）
   async createProduct(productData) {
-    return ApiService.post('/products', productData);
+    return ApiService.post('/products/', productData);
   },
 
   // 更新产品（管理员）
   async updateProduct(productId, productData) {
-    return ApiService.put(`/products/${productId}`, productData);
+    return ApiService.put(`/products/${productId}/`, productData);
   },
 
   // 删除产品（管理员）
   async deleteProduct(productId) {
-    return ApiService.delete(`/products/${productId}`);
+    return ApiService.delete(`/products/${productId}/`);
   }
 };
