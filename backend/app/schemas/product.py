@@ -83,18 +83,20 @@ class Product(ProductInDBBase):
 class ProductWithCategory(Product):
     category: Category
     image_url: Optional[str] = None
-    
+
     @validator('image_url', pre=False, always=True)
     def generate_image_url(cls, v, values):
         """生成完整的图片URL"""
+        from app.core.config import settings
+
         image_filename = values.get('image')
         if not image_filename:
-            return "http://localhost:8000/static/images/products/placeholder.svg"
-        
+            return f"{settings.SERVER_HOST}/static/images/products/placeholder.svg"
+
         if image_filename.startswith(('http://', 'https://')):
             return image_filename
-        
-        return f"http://localhost:8000/static/images/products/{image_filename}"
+
+        return f"{settings.SERVER_HOST}/static/images/products/{image_filename}"
 
 
 # 购物车项目基本模式

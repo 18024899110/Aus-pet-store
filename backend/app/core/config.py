@@ -10,7 +10,10 @@ class Settings(BaseSettings):
     SECRET_KEY: str = os.getenv("SECRET_KEY", secrets.token_urlsafe(32))
     # 60 minutes * 24 hours * 8 days = 8 days
     ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 60 * 24 * 8))
-    
+
+    # Server host for generating full URLs (e.g., for images)
+    SERVER_HOST: str = os.getenv("SERVER_HOST", "http://localhost:8000")
+
     # CORS设置 - 支持生产环境域名
     CORS_ORIGINS: Union[str, List[str]] = "http://localhost,http://localhost:3000,https://your-app.vercel.app"
 
