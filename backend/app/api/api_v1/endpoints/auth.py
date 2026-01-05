@@ -15,7 +15,7 @@ from app.utils.security import create_access_token, verify_password
 router = APIRouter()
 
 
-@router.post("/login", response_model=Token)
+@router.post("/login/", response_model=Token)
 def login(
     db: Session = Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends()
 ) -> Any:
@@ -43,7 +43,7 @@ def login(
     }
 
 
-@router.post("/register", response_model=UserSchema)
+@router.post("/register/", response_model=UserSchema)
 def register(*, db: Session = Depends(get_db), user_in: UserCreate) -> Any:
     """
     Register new user

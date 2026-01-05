@@ -11,7 +11,7 @@ from app.api.deps import get_current_user, get_current_active_user, get_current_
 router = APIRouter()
 
 
-@router.get("/me", response_model=UserSchema)
+@router.get("/me/", response_model=UserSchema)
 def read_user_me(
     current_user: User = Depends(get_current_active_user),
 ) -> Any:
@@ -21,7 +21,7 @@ def read_user_me(
     return current_user
 
 
-@router.put("/me", response_model=UserSchema)
+@router.put("/me/", response_model=UserSchema)
 def update_user_me(
     *,
     db: Session = Depends(get_db),
