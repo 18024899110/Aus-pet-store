@@ -2,6 +2,7 @@
   background-color: #4a9e5c;
   transition: all 0.3s ease;
   padding: 15px 0;
+  z-index: 1050; /* 确保 Header 在正常内容之上,但低于 StartPage */
 }
 
 .header.scrolled {
@@ -46,8 +47,8 @@
 
 .search-btn {
   border-radius: 0 20px 20px 0;
-  background-color: white;
-  color: #4a9e5c;
+  background: linear-gradient(135deg, #03B3C3, #D856BF);
+  color: #ffffff;
   border: none;
 }
 

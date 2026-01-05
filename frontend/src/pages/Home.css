@@ -355,4 +355,25 @@
   .product-buttons .btn {
     width: 100%;
   }
+
+    .lunbo-button {
+      position: relative;
+      padding: 20px 60px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #000;
+      background: linear-gradient(135deg, #03B3C3, #D856BF);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      letter-spacing: 2px;
+      box-shadow:
+        0 0 30px rgba(3, 179, 195, 0.6),
+        0 0 60px rgba(216, 86, 191, 0.4);
+      animation: fadeInUp 1.2s ease-out 0.5s both;
+    }
+
+    
 }

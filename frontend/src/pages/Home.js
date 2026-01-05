@@ -81,17 +81,16 @@ const Home = () => {
         <Carousel className="home-carousel">
           {banners.map(banner => (
             <Carousel.Item key={banner.id}>
-              <div 
-                className="carousel-image"
-                style={{ backgroundImage: `url(${banner.image})` }}
-              ></div>
+              <Link to={banner.link}>
+                <div
+                  className="carousel-image"
+                  style={{ backgroundImage: `url(${banner.image})` }}
+                ></div>
+              </Link>
               <Carousel.Caption>
                 <Container>
                   <h2>{banner.title}</h2>
                   <p>{banner.description}</p>
-                  <Link to={banner.link}>
-                    <Button variant="primary">View Now</Button>
-                  </Link>
                 </Container>
               </Carousel.Caption>
             </Carousel.Item>

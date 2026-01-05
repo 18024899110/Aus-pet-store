@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import './App.css';
@@ -7,6 +7,9 @@ import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
+import StartPage from './components/StartPage';
+import Galaxy from './components/xinkong';
+
 
 // Pages
 import Home from './pages/Home';
@@ -26,34 +29,41 @@ import OrderManagement from './pages/admin/OrderManagement';
 import UserManagement from './pages/admin/UserManagement';
 import CategoryManagement from './pages/admin/CategoryManagement';
 import Analytics from './pages/admin/Analytics';
+import AnimatedContent from './components/AnimatedContent';
 
 // Context
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [showStartPage, setShowStartPage] = useState(true); // 启用 StartPage
+  const [showhomePage, setShowhomePage] = useState(false);
 
-  useEffect(() => {
-    // Simulate loading process
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  }, []);
-
-  if (isLoading) {
-    return (
-      <div className="loading-screen">
-        <div className="spinner"></div>
-        <p>Loading...</p>
-      </div>
-    );
-  }
+  const handleStart = () => {
+    setShowStartPage(false);
+    setShowhomePage(true);
+  };
 
   return (
     <AuthProvider>
       <CartProvider>
+        
+        {showStartPage && <StartPage onStart={handleStart} />}
+        {!showStartPage && <AnimatedContent 
+        distance={150}
+        direction="vertical"
+        reverse={false}
+        duration={1.2}
+        ease="power3.out"
+        initialOpacity={0}
+        animateOpacity
+        scale={1}
+        threshold={0.2}
+        delay={0}>
+
+        
         <div className="App">
+          
           <Routes>
             {/* Public Routes */}
             <Route path="/login" element={<Login />} />
@@ -144,6 +154,7 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
+        </AnimatedContent>}
       </CartProvider>
     </AuthProvider>
   );
