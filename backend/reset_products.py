@@ -8,8 +8,8 @@ import os
 # Add backend directory to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__)))
 
-from app.db.session import SessionLocal
-from app.models.product import Product, Category
+from app.db.session import SessionLocal, engine
+from sqlalchemy import text
 
 logging.basicConfig(
     level=logging.INFO,
@@ -21,12 +21,15 @@ def reset_products():
     """删除所有产品和分类，让初始化脚本重新创建"""
     db = SessionLocal()
     try:
-        # 删除所有产品
-        product_count = db.query(Product).delete()
+        # 使用原生 SQL 删除，避免 SQLAlchemy 关系加载问题
+        logger.info("正在删除产品数据...")
+        result = db.execute(text("DELETE FROM products"))
+        product_count = result.rowcount
         logger.info(f"✓ 删除了 {product_count} 个产品")
 
-        # 删除所有分类
-        category_count = db.query(Category).delete()
+        logger.info("正在删除分类数据...")
+        result = db.execute(text("DELETE FROM categories"))
+        category_count = result.rowcount
         logger.info(f"✓ 删除了 {category_count} 个分类")
 
         db.commit()
