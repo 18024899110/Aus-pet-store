@@ -58,7 +58,7 @@ def init_db(db: Session) -> None:
                 description="High-quality dog food suitable for all adult dogs. Rich in premium protein and essential vitamins to ensure your beloved dog's healthy growth.",
                 price=89.99,
                 stock=50,
-                image="product1.jpg",
+                image="product1.svg",
                 category_id=dog_category.id,
                 is_active=True
             ),
@@ -67,7 +67,7 @@ def init_db(db: Session) -> None:
                 description="Durable cat scratching toy to protect your furniture.",
                 price=29.99,
                 stock=100,
-                image="product2.jpg",
+                image="product2.svg",
                 category_id=cat_category.id,
                 is_active=True
             ),
@@ -76,7 +76,7 @@ def init_db(db: Session) -> None:
                 description="Smart pet feeder with scheduled feeding capabilities.",
                 price=129.99,
                 stock=30,
-                image="product3.jpg",
+                image="product3.svg",
                 category_id=dog_category.id,
                 is_active=True
             ),
@@ -85,7 +85,7 @@ def init_db(db: Session) -> None:
                 description="Provides comprehensive nutrition for cats.",
                 price=19.99,
                 stock=80,
-                image="product4.jpg",
+                image="product4.svg",
                 category_id=cat_category.id,
                 is_active=True
             ),
@@ -94,7 +94,7 @@ def init_db(db: Session) -> None:
                 description="Delicious treats perfect for training, dogs love them.",
                 price=15.99,
                 stock=120,
-                image="product5.jpg",
+                image="product5.svg",
                 category_id=dog_category.id,
                 is_active=True
             ),
@@ -103,7 +103,7 @@ def init_db(db: Session) -> None:
                 description="Soft and comfortable cat bed, giving cats their own space.",
                 price=45.99,
                 stock=40,
-                image="product6.jpg",
+                image="product6.svg",
                 category_id=cat_category.id,
                 is_active=True
             ),
@@ -112,7 +112,7 @@ def init_db(db: Session) -> None:
                 description="Durable and chew-resistant dog toy ball.",
                 price=12.99,
                 stock=150,
-                image="product7.jpg",
+                image="product7.svg",
                 category_id=dog_category.id,
                 is_active=True
             ),
@@ -121,7 +121,7 @@ def init_db(db: Session) -> None:
                 description="Nutritious food suitable for small pets like hamsters and rabbits.",
                 price=9.99,
                 stock=100,
-                image="product8.jpg",
+                image="product8.svg",
                 category_id=small_pet_category.id,
                 is_active=True
             ),
