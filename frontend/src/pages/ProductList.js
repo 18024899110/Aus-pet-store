@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Container, Row, Col, Card, Form, Breadcrumb, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Form, Breadcrumb, Alert } from 'react-bootstrap';
 import { Link, useParams, useLocation } from 'react-router-dom';
 import { FaFilter, FaTimes, FaSort } from 'react-icons/fa';
 import { CartContext } from '../context/CartContext';
 import { productService } from '../services';
 import ProductImage from '../components/ProductImage';
-import ColourfulButton from '../components/ColourfulButton';
 import './ProductList.css';
 
 const ProductList = () => {
@@ -207,10 +206,10 @@ const ProductList = () => {
         
         {/* Filter button on mobile devices */}
         <div className="filter-toggle d-lg-none mb-3">
-          <ColourfulButton
-            variant="secondary"
+          <Button 
+            variant="outline-secondary" 
             onClick={() => setShowFilters(!showFilters)}
-            className="small w-100"
+            className="w-100"
           >
             {showFilters ? (
               <>
@@ -221,7 +220,7 @@ const ProductList = () => {
                 <FaFilter className="me-2" /> Show Filter Options
               </>
             )}
-          </ColourfulButton>
+          </Button>
         </div>
         
         <Row>
@@ -229,13 +228,13 @@ const ProductList = () => {
           <Col lg={3} className={`filter-sidebar ${showFilters ? 'show' : ''}`}>
             <div className="filter-header d-flex justify-content-between align-items-center">
               <h4>Filters</h4>
-              <ColourfulButton
-                variant="secondary"
-                className="small p-0 d-lg-none"
+              <Button 
+                variant="link" 
+                className="p-0 d-lg-none" 
                 onClick={() => setShowFilters(false)}
               >
                 <FaTimes />
-              </ColourfulButton>
+              </Button>
             </div>
             
             <div className="filter-section">
@@ -273,12 +272,12 @@ const ProductList = () => {
             </div>
             
             <div className="filter-actions">
-              <ColourfulButton variant="primary" onClick={applyFilters} className="small me-2">
+              <Button variant="primary" onClick={applyFilters} className="me-2">
                 Apply Filters
-              </ColourfulButton>
-              <ColourfulButton variant="secondary" onClick={resetFilters} className="small">
+              </Button>
+              <Button variant="outline-secondary" onClick={resetFilters}>
                 Reset
-              </ColourfulButton>
+              </Button>
             </div>
           </Col>
           
@@ -342,15 +341,15 @@ const ProductList = () => {
                         <div className="product-price">${product.price ? product.price.toFixed(2) : '0.00'}</div>
                         <div className="product-buttons">
                           <Link to={`/product/${product.id}`}>
-                            <ColourfulButton variant="secondary" className="small">View Details</ColourfulButton>
+                            <Button variant="outline-primary" size="sm">View Details</Button>
                           </Link>
-                          <ColourfulButton
-                            variant="primary"
-                            className="small"
+                          <Button 
+                            variant="primary" 
+                            size="sm"
                             onClick={() => addToCart(product)}
                           >
                             Add to Cart
-                          </ColourfulButton>
+                          </Button>
                         </div>
                       </Card.Body>
                     </Card>

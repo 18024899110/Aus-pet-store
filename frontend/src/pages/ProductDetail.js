@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Container, Row, Col, Breadcrumb, Tabs, Tab, Form, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Breadcrumb, Button, Tabs, Tab, Form, Alert } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 import { FaStar, FaRegStar, FaShoppingCart, FaHeart, FaShare, FaCheck } from 'react-icons/fa';
 import { CartContext } from '../context/CartContext';
 import { productService } from '../services';
 import ProductImage from '../components/ProductImage';
-import ColourfulButton from '../components/ColourfulButton';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
@@ -120,7 +119,7 @@ const ProductDetail = () => {
         <div className="error-container py-5 text-center">
           <Alert variant="danger">{error}</Alert>
           <Link to="/products">
-            <ColourfulButton variant="primary" className="small">Back to Product List</ColourfulButton>
+            <Button variant="primary">Back to Product List</Button>
           </Link>
         </div>
       </Container>
@@ -134,7 +133,7 @@ const ProductDetail = () => {
           <h2>Product Not Found</h2>
           <p>Sorry, the product you are looking for does not exist or has been removed.</p>
           <Link to="/products">
-            <ColourfulButton variant="primary" className="small">Back to Product List</ColourfulButton>
+            <Button variant="primary">Back to Product List</Button>
           </Link>
         </div>
       </Container>
@@ -244,38 +243,41 @@ const ProductDetail = () => {
                     <div className="quantity-selector">
                       <span className="quantity-label">Quantity:</span>
                       <div className="quantity-controls">
-                        <ColourfulButton
-                          variant="secondary"
-                          className="small qty-btn"
+                        <Button 
+                          variant="outline-secondary" 
+                          size="sm"
                           onClick={decreaseQuantity}
                           disabled={quantity <= 1}
+                          className="qty-btn"
                         >
                           -
-                        </ColourfulButton>
-                        <Form.Control
-                          type="number"
-                          min="1"
-                          max={product.stock}
-                          value={quantity}
+                        </Button>
+                        <Form.Control 
+                          type="number" 
+                          min="1" 
+                          max={product.stock} 
+                          value={quantity} 
                           onChange={handleQuantityChange}
                           className="qty-input"
                         />
-                        <ColourfulButton
-                          variant="secondary"
-                          className="small qty-btn"
+                        <Button 
+                          variant="outline-secondary" 
+                          size="sm"
                           onClick={increaseQuantity}
                           disabled={quantity >= product.stock}
+                          className="qty-btn"
                         >
                           +
-                        </ColourfulButton>
+                        </Button>
                       </div>
                     </div>
                   </div>
                   
                   <div className="action-buttons">
-                    <ColourfulButton
-                      variant="primary"
-                      className="medium add-to-cart-btn"
+                    <Button 
+                      variant="primary" 
+                      size="lg"
+                      className="add-to-cart-btn"
                       onClick={handleAddToCart}
                       disabled={addedToCart || product.stock <= 0}
                     >
@@ -290,18 +292,18 @@ const ProductDetail = () => {
                           Buy Now
                         </>
                       )}
-                    </ColourfulButton>
-
+                    </Button>
+                    
                     <div className="secondary-actions">
-                      <ColourfulButton variant="secondary" className="small action-btn">
+                      <Button variant="outline-primary" className="action-btn">
                         <FaHeart className="me-1" />
                         Favorite
-                      </ColourfulButton>
-
-                      <ColourfulButton variant="secondary" className="small action-btn">
+                      </Button>
+                      
+                      <Button variant="outline-secondary" className="action-btn">
                         <FaShare className="me-1" />
                         Share
-                      </ColourfulButton>
+                      </Button>
                     </div>
                   </div>
                 </div>
