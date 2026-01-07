@@ -18,7 +18,7 @@ const Home = () => {
   const loadFeaturedProducts = async () => {
     try {
       setLoading(true);
-      const products = await productService.getProducts({ limit: 4 });
+      const products = await productService.getProducts({ limit: 10 });
       setFeaturedProducts(products);
     } catch (error) {
       console.error('Failed to load featured products:', error);
