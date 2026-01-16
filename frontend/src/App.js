@@ -30,7 +30,6 @@ import UserManagement from './pages/admin/UserManagement';
 import CategoryManagement from './pages/admin/CategoryManagement';
 import Analytics from './pages/admin/Analytics';
 import AnimatedContent from './components/AnimatedContent';
-
 // Context
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
