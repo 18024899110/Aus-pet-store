@@ -1,0 +1,244 @@
+/* Header Card Nav 样式 */
+.header-card-nav {
+  padding: 20px 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Nav Card */
+.nav-card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+/* Nav Header */
+.nav-header {
+  background: linear-gradient(135deg, #03B3C3, #D856BF);
+  border: none;
+  padding: 15px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Brand */
+.nav-brand {
+  flex: 0 0 auto;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.brand-link:hover {
+  color: white;
+  transform: scale(1.05);
+}
+
+.brand-icon {
+  margin-right: 10px;
+  font-size: 28px;
+}
+
+.brand-text {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: 1px;
+}
+
+/* Search Form */
+.search-form-inline {
+  display: flex;
+  flex: 1;
+  max-width: 500px;
+  margin: 0 30px;
+}
+
+.search-input-inline {
+  border-radius: 25px 0 0 25px;
+  border: none;
+  padding: 10px 20px;
+  flex: 1;
+}
+
+.search-input-inline:focus {
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.3);
+  border-color: transparent;
+}
+
+.search-btn-inline {
+  border-radius: 0 25px 25px 0;
+  border: none;
+  padding: 10px 25px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.search-btn-inline:hover {
+  background: linear-gradient(135deg, #5568d3, #6640a2);
+  transform: scale(1.05);
+}
+
+/* Nav Actions */
+.nav-actions {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.action-link {
+  color: white;
+  font-size: 22px;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.action-link:hover {
+  color: white;
+  transform: translateY(-3px);
+}
+
+.cart-action {
+  position: relative;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  font-size: 11px;
+  padding: 3px 6px;
+}
+
+/* Nav Body */
+.nav-body {
+  padding: 0;
+  background: white;
+}
+
+/* Card Nav Tabs */
+.nav-card-link {
+  display: flex;
+  align-items: center;
+  padding: 15px 25px;
+  color: #333;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  background: transparent;
+}
+
+.nav-card-link:hover {
+  background: linear-gradient(135deg, rgba(3, 179, 195, 0.1), rgba(216, 86, 191, 0.1));
+  color: #03B3C3;
+}
+
+.nav-card-link.active {
+  background: linear-gradient(135deg, #03B3C3, #D856BF);
+  color: white;
+  border-bottom: 3px solid #667eea;
+}
+
+.nav-icon {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+/* 响应式设计 */
+@media (max-width: 992px) {
+  .nav-header {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .search-form-inline {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .nav-actions {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .nav-card-link {
+    padding: 12px 15px;
+    font-size: 14px;
+  }
+
+  .brand-link {
+    font-size: 20px;
+  }
+
+  .brand-icon {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-card-nav {
+    padding: 10px 0;
+  }
+
+  .nav-card {
+    border-radius: 10px;
+  }
+
+  .nav-header {
+    padding: 10px;
+  }
+
+  .nav-card-link {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .nav-icon {
+    font-size: 14px;
+    margin-right: 5px;
+  }
+
+  .brand-text {
+    font-size: 18px;
+  }
+}
+
+/* React Bits Card Nav 覆盖样式 */
+.card-nav-tabs {
+  border: none;
+  background: white;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card-nav-tabs .nav-item {
+  flex: 1;
+  text-align: center;
+}
+
+.card-nav-tabs .nav-link {
+  border: none;
+  border-bottom: 3px solid transparent;
+}
+
+.card-nav-tabs .nav-link.active {
+  border-bottom-color: #03B3C3;
+  background: linear-gradient(135deg, rgba(3, 179, 195, 0.15), rgba(216, 86, 191, 0.15));
+}
