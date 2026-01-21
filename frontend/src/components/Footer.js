@@ -78,7 +78,7 @@ const Footer = () => {
             <p>&copy; {new Date().getFullYear()} CY Pet Store. All rights reserved.</p>
           </Col>
           <Col md={6} className="payment-methods text-md-end">
-            <img src="/payment-methods.png" alt="Payment Methods" />
+            {/* <img src="/payment-methods.png" alt="Payment Methods" /> */}
           </Col>
         </Row>
       </Container>
