@@ -28,14 +28,29 @@ app.add_middleware(
 # API routes
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
-# Static files
-import os
+# Static files with CORS support
+from starlette.middleware.cors import CORSMiddleware as StarletteCORSMiddleware
+from fastapi.responses import Response
+from starlette.staticfiles import StaticFiles as StarletteStaticFiles
+
+class CORSStaticFiles(StarletteStaticFiles):
+    async def __call__(self, scope, receive, send):
+        async def send_wrapper(message):
+            if message['type'] == 'http.response.start':
+                headers = list(message.get('headers', []))
+                # Add CORS headers
+                headers.append((b'access-control-allow-origin', b'*'))
+                headers.append((b'access-control-expose-headers', b'*'))
+                message['headers'] = headers
+            await send(message)
+        await super().__call__(scope, receive, send_wrapper)
+
 static_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "static"))
 print(f"Looking for static files at: {static_dir}")
 print(f"Directory exists: {os.path.exists(static_dir)}")
 if os.path.exists(static_dir):
-    app.mount("/static", StaticFiles(directory=static_dir), name="static")
-    print("Static files mounted successfully")
+    app.mount("/static", CORSStaticFiles(directory=static_dir), name="static")
+    print("Static files mounted successfully with CORS support")
 
 @app.get("/")
 def root():
