@@ -52,7 +52,12 @@
       "Bash(do mv \"product$i.jpg\" \"product$i.svg\" 2)",
       "Bash(git rm:*)",
       "Bash(railway --version:*)",
-      "Bash(git revert:*)"
+      "Bash(git revert:*)",
+      "Bash(set CI=false)",
+      "Bash(Select-String -Pattern \"REACT_APP\")",
+      "Bash(node --version:*)",
+      "Bash(git config:*)",
+      "Bash(git syncm:*)"
     ],
     "deny": []
   }

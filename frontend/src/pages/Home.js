@@ -187,7 +187,7 @@ const Home = () => {
                       <Link to={`/product/${product.id}`}>
                         <Button className="btn-white-gray" size="sm">View Details</Button>
                       </Link>
-                      <Button variant="primary" size="sm">Add to Cart</Button>
+                      <Button variant="light" size="sm">Add to Cart?</Button>
                     </div>
                   </Card.Body>
                 </Card>
