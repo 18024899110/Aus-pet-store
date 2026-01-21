@@ -14,8 +14,8 @@ class Settings(BaseSettings):
     # Server host for generating full URLs (e.g., for images)
     SERVER_HOST: str = os.getenv("SERVER_HOST", "http://localhost:8000")
 
-    # CORS设置 - 支持生产环境域名
-    CORS_ORIGINS: Union[str, List[str]] = "http://localhost,http://localhost:3000,https://ccy-pet-store.vercel.app,https://aus-pet-store.vercel.app"
+    # CORS设置 - 支持所有来源(生产环境应该限制具体域名)
+    CORS_ORIGINS: Union[str, List[str]] = "*"
 
     @validator("CORS_ORIGINS", pre=True)
     def assemble_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:
