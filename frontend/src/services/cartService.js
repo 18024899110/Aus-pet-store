@@ -16,12 +16,12 @@ export const cartService = {
 
   // 更新购物车商品数量
   async updateCartItem(itemId, quantity) {
-    return ApiService.put(`/cart/${itemId}/`, { quantity });
+    return ApiService.put(`/cart/${itemId}`, { quantity });
   },
 
   // 从购物车删除商品
   async removeFromCart(itemId) {
-    return ApiService.delete(`/cart/${itemId}/`);
+    return ApiService.delete(`/cart/${itemId}`);
   },
 
   // 清空购物车

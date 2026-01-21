@@ -8,7 +8,7 @@ export const categoryService = {
 
   // 获取单个分类
   async getCategory(categoryId) {
-    return ApiService.get(`/categories/${categoryId}/`);
+    return ApiService.get(`/categories/${categoryId}`);
   },
 
   // 创建分类（管理员）
@@ -18,11 +18,11 @@ export const categoryService = {
 
   // 更新分类（管理员）
   async updateCategory(categoryId, categoryData) {
-    return ApiService.put(`/categories/${categoryId}/`, categoryData);
+    return ApiService.put(`/categories/${categoryId}`, categoryData);
   },
 
   // 删除分类（管理员）
   async deleteCategory(categoryId) {
-    return ApiService.delete(`/categories/${categoryId}/`);
+    return ApiService.delete(`/categories/${categoryId}`);
   }
 };
