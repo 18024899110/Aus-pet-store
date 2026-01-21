@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>图片加载测试</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .test-item { margin: 20px 0; padding: 10px; border: 1px solid #ccc; }
+        img { max-width: 300px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>产品图片加载测试</h1>
+
+    <div class="test-item">
+        <h3>测试1: 直接使用完整URL</h3>
+        <img src="https://cy-pet-backend.up.railway.app/static/images/products/product1.svg" alt="Test 1">
+        <p>URL: https://cy-pet-backend.up.railway.app/static/images/products/product1.svg</p>
+    </div>
+
+    <div class="test-item">
+        <h3>测试2: 使用相对路径</h3>
+        <img src="/static/images/products/product1.svg" alt="Test 2">
+        <p>URL: /static/images/products/product1.svg</p>
+    </div>
+
+    <div class="test-item">
+        <h3>测试3: 通过JavaScript加载</h3>
+        <div id="js-image"></div>
+        <p id="js-result"></p>
+    </div>
+
+    <div class="test-item">
+        <h3>测试4: API响应检查</h3>
+        <button onclick="fetchProduct()">获取产品数据</button>
+        <pre id="api-result"></pre>
+    </div>
+
+    <script>
+        // 测试3: JavaScript加载
+        const img = document.createElement('img');
+        img.src = 'https://cy-pet-backend.up.railway.app/static/images/products/product1.svg';
+        img.onload = () => {
+            document.getElementById('js-result').textContent = '✓ 图片加载成功';
+            document.getElementById('js-result').style.color = 'green';
+        };
+        img.onerror = (e) => {
+            document.getElementById('js-result').textContent = '✗ 图片加载失败: ' + e;
+            document.getElementById('js-result').style.color = 'red';
+        };
+        document.getElementById('js-image').appendChild(img);
+
+        // 测试4: API调用
+        async function fetchProduct() {
+            try {
+                const response = await fetch('https://cy-pet-backend.up.railway.app/api/v1/products/');
+                const data = await response.json();
+                const firstProduct = data[0];
+                document.getElementById('api-result').textContent = JSON.stringify(firstProduct, null, 2);
+
+                // 尝试加载第一个产品的图片
+                const testImg = document.createElement('img');
+                testImg.src = firstProduct.image_url;
+                testImg.style.maxWidth = '300px';
+                testImg.onload = () => console.log('API产品图片加载成功');
+                testImg.onerror = () => console.error('API产品图片加载失败');
+                document.getElementById('api-result').parentElement.appendChild(testImg);
+            } catch (error) {
+                document.getElementById('api-result').textContent = '错误: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

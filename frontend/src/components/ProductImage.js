@@ -19,15 +19,26 @@ const ProductImage = ({
     setIsLoading(true);
   }, [src]);
 
-  const handleImageError = () => {
+  const handleImageError = (e) => {
     if (!hasError) {
+      console.error('图片加载失败:', {
+        原始src: src,
+        当前imageSrc: imageSrc,
+        处理后URL: getImageUrl(imageSrc),
+        target: e.target,
+        targetSrc: e.target?.src
+      });
       setHasError(true);
       setImageSrc(placeholder);
       setIsLoading(false);
     }
   };
 
-  const handleImageLoad = () => {
+  const handleImageLoad = (e) => {
+    console.log('图片加载成功:', {
+      原始src: src,
+      加载的URL: e.target?.src
+    });
     setHasError(false);
     setIsLoading(false);
   };
