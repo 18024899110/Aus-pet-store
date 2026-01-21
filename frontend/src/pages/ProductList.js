@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Button, Form, Breadcrumb, Alert } from 'reac
 import { Link, useParams, useLocation } from 'react-router-dom';
 import { FaFilter, FaTimes, FaSort } from 'react-icons/fa';
 import { CartContext } from '../context/CartContext';
-import { productService } from '../services';
+import { productService, categoryService } from '../services';
 import ProductImage from '../components/ProductImage';
 import './ProductList.css';
 
@@ -11,11 +11,11 @@ const ProductList = () => {
   const { category } = useParams();
   const location = useLocation();
   const { addToCart } = useContext(CartContext);
-  
+
   // Get search keywords from URL parameters
   const searchParams = new URLSearchParams(location.search);
   const searchQuery = searchParams.get('search');
-  
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -23,7 +23,8 @@ const ProductList = () => {
   const [sortBy, setSortBy] = useState('featured');
   const [priceRange, setPriceRange] = useState([0, 500]);
   const [selectedBrands, setSelectedBrands] = useState([]);
-  
+  const [categories, setCategories] = useState([]);  // 存储从API获取的分类列表
+
   const [brands] = useState([
     { id: 1, name: 'PetLife' },
     { id: 2, name: 'Royal Canin' },
@@ -31,35 +32,53 @@ const ProductList = () => {
     { id: 4, name: 'Pedigree' },
     { id: 5, name: 'Kong' },
   ]);
-  
+
+  // Load categories from API on component mount
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
   // Load product data from API
   useEffect(() => {
-    loadProducts();
+    if (categories.length > 0 || !category) {
+      loadProducts();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, searchQuery]);
-  
+  }, [category, searchQuery, categories]);
+
+  const loadCategories = async () => {
+    try {
+      const data = await categoryService.getCategories();
+      setCategories(data);
+    } catch (error) {
+      console.error('Failed to load categories:', error);
+    }
+  };
+
+  const getCategoryIdBySlug = (slug) => {
+    const categoryItem = categories.find(cat => cat.slug === slug);
+    return categoryItem ? categoryItem.id : null;
+  };
+
   const loadProducts = async () => {
     try {
       setLoading(true);
       setError('');
-      
+
       const params = {};
-      
+
       if (category) {
-        // Find corresponding ID based on category name
-        const categoryMap = {
-          'dog': 1,
-          'cat': 2,
-          'small-pet': 3,
-          'accessories': 4
-        };
-        params.category_id = categoryMap[category];
+        // 动态查找分类ID
+        const categoryId = getCategoryIdBySlug(category);
+        if (categoryId) {
+          params.category_id = categoryId;
+        }
       }
-      
+
       if (searchQuery) {
         params.search = searchQuery;
       }
-      
+
       const data = await productService.getProducts(params);
       setProducts(data);
     } catch (error) {
@@ -107,26 +126,24 @@ const ProductList = () => {
     try {
       setLoading(true);
       setError('');
-      
+
       const params = {
         min_price: priceRange[0],
         max_price: priceRange[1]
       };
-      
+
       if (category) {
-        const categoryMap = {
-          'dog': 1,
-          'cat': 2,
-          'small-pet': 3,
-          'accessories': 4
-        };
-        params.category_id = categoryMap[category];
+        // 动态查找分类ID
+        const categoryId = getCategoryIdBySlug(category);
+        if (categoryId) {
+          params.category_id = categoryId;
+        }
       }
-      
+
       if (searchQuery) {
         params.search = searchQuery;
       }
-      
+
       const data = await productService.getProducts(params);
       
       let filteredProducts = data;
