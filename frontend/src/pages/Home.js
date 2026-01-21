@@ -185,7 +185,8 @@ const Home = () => {
                     <div className="product-price">${product.price.toFixed(2)}</div>
                     <div className="product-buttons">
                       <Link to={`/product/${product.id}`}>
-                        <Button variant="light" className="btn-white-gray" size="sm">View Details</Button>
+                      
+                        <Button variant="light"  size="sm">View Details</Button>
                       </Link>
                       <Button variant="light" size="sm">Add to Cart?</Button>
                     </div>
