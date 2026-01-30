@@ -19,6 +19,13 @@
   font-size: 1.5rem;
 }
 
+.logo span {
+  background: linear-gradient(135deg, #03B3C3, #D856BF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .logo-img {
   height: 40px;
   margin-right: 10px;

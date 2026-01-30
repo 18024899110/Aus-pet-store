@@ -181,7 +181,7 @@ const Dashboard = () => {
     <div className="dashboard">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1 className="dashboard-title">Dashboard</h1>
-        <Button variant="outline-primary" size="sm" onClick={fetchDashboardData}>
+        <Button variant="light" size="sm" onClick={fetchDashboardData}>
           Refresh Data
         </Button>
       </div>
@@ -254,8 +254,10 @@ const Dashboard = () => {
               <div>
                 <h5 className="mb-1">{stats.pendingOrders} Pending Orders</h5>
                 <p className="text-muted mb-0">Orders waiting to be processed</p>
-                <Link to="/admin/orders" className="btn btn-outline-warning btn-sm mt-2">
-                  View Orders
+                <Link to="/admin/orders">
+                  <Button variant="light" size="sm" className="mt-2">
+                    View Orders
+                  </Button>
                 </Link>
               </div>
             </Card.Body>
@@ -269,8 +271,10 @@ const Dashboard = () => {
               <div>
                 <h5 className="mb-1">{stats.lowStockProducts} Low Stock Items</h5>
                 <p className="text-muted mb-0">Products with less than 10 items in stock</p>
-                <Link to="/admin/products" className="btn btn-outline-danger btn-sm mt-2">
-                  View Products
+                <Link to="/admin/products">
+                  <Button variant="light" size="sm" className="mt-2">
+                    View Products
+                  </Button>
                 </Link>
               </div>
             </Card.Body>
@@ -309,8 +313,10 @@ const Dashboard = () => {
           <Card className="admin-card admin-table">
             <Card.Header className="card-header-custom d-flex justify-content-between align-items-center">
               <h5 className="mb-0">Recent Orders</h5>
-              <Link to="/admin/orders" className="btn btn-light btn-sm">
-                View All
+              <Link to="/admin/orders">
+                <Button variant="light" size="sm">
+                  View All
+                </Button>
               </Link>
             </Card.Header>
             <Card.Body className="p-0">
@@ -334,8 +340,10 @@ const Dashboard = () => {
                       <td>{getStatusBadge(order.status)}</td>
                       <td>{formatCurrency(order.total_amount)}</td>
                       <td>
-                        <Link to={`/admin/orders/${order.id}`} className="btn btn-outline-primary btn-sm">
-                          <FaEye />
+                        <Link to={`/admin/orders/${order.id}`}>
+                          <Button variant="light" size="sm">
+                            <FaEye />
+                          </Button>
                         </Link>
                       </td>
                     </tr>
@@ -350,8 +358,10 @@ const Dashboard = () => {
           <Card className="admin-card">
             <Card.Header className="card-header-custom d-flex justify-content-between align-items-center">
               <h5 className="mb-0">Top Products</h5>
-              <Link to="/admin/products" className="btn btn-light btn-sm">
-                View All
+              <Link to="/admin/products">
+                <Button variant="light" size="sm">
+                  View All
+                </Button>
               </Link>
             </Card.Header>
             <Card.Body>

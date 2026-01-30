@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Container, Row, Col, Card, Button, Form, Breadcrumb, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, Breadcrumb, Alert } from 'react-bootstrap';
 import { Link, useParams, useLocation } from 'react-router-dom';
 import { FaFilter, FaTimes, FaSort } from 'react-icons/fa';
 import { CartContext } from '../context/CartContext';
 import { productService, categoryService } from '../services';
-import ProductImage from '../components/ProductImage';
+import FlipCard from '../components/FlipCard';
 import './ProductList.css';
 
 const ProductList = () => {
@@ -24,6 +24,7 @@ const ProductList = () => {
   const [priceRange, setPriceRange] = useState([0, 500]);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [categories, setCategories] = useState([]);  // 存储从API获取的分类列表
+  const [flippedCards, setFlippedCards] = useState({});  // 记录翻转的卡片
 
   const [brands] = useState([
     { id: 1, name: 'PetLife' },
@@ -175,7 +176,28 @@ const ProductList = () => {
     setSelectedBrands([]);
     loadProducts();
   };
-  
+
+  // Handle add to cart with feedback
+  const handleAddToCart = async (product) => {
+    console.log('添加到购物车:', product);
+    try {
+      await addToCart(product);
+
+      // 触发翻转动画
+      setFlippedCards(prev => ({ ...prev, [product.id]: true }));
+
+      // 2秒后翻转回来
+      setTimeout(() => {
+        setFlippedCards(prev => ({ ...prev, [product.id]: false }));
+      }, 2000);
+
+    } catch (error) {
+      console.error('添加到购物车失败:', error);
+      setError('添加到购物车失败，请重试');
+      setTimeout(() => setError(''), 3000);
+    }
+  };
+
   // Get page title
   const getPageTitle = () => {
     if (searchQuery) {
@@ -213,18 +235,19 @@ const ProductList = () => {
         </Breadcrumb>
         
         <h1 className="page-title">{getPageTitle()}</h1>
-        
+
         {/* Error message */}
         {error && (
-          <Alert variant="danger" className="mb-3">
+          <Alert variant="danger" className="mb-3" onClose={() => setError('')} dismissible>
             {error}
           </Alert>
         )}
         
         {/* Filter button on mobile devices */}
         <div className="filter-toggle d-lg-none mb-3">
-          <Button 
-            variant="outline-secondary" 
+          <Button
+            variant="light"
+            size="sm"
             onClick={() => setShowFilters(!showFilters)}
             className="w-100"
           >
@@ -245,9 +268,10 @@ const ProductList = () => {
           <Col lg={3} className={`filter-sidebar ${showFilters ? 'show' : ''}`}>
             <div className="filter-header d-flex justify-content-between align-items-center">
               <h4>Filters</h4>
-              <Button 
-                variant="link" 
-                className="p-0 d-lg-none" 
+              <Button
+                variant="light"
+                size="sm"
+                className="p-0 d-lg-none"
                 onClick={() => setShowFilters(false)}
               >
                 <FaTimes />
@@ -289,10 +313,10 @@ const ProductList = () => {
             </div>
             
             <div className="filter-actions">
-              <Button variant="primary" onClick={applyFilters} className="me-2">
+              <Button variant="light" size="sm" onClick={applyFilters} className="me-2">
                 Apply Filters
               </Button>
-              <Button variant="outline-secondary" onClick={resetFilters}>
+              <Button variant="light" size="sm" onClick={resetFilters}>
                 Reset
               </Button>
             </div>
@@ -334,42 +358,11 @@ const ProductList = () => {
               <Row>
                 {products.map(product => (
                   <Col md={4} sm={6} key={product.id} className="mb-4">
-                    <Card className="product-card">
-                      <Link to={`/product/${product.id}`} className="product-link">
-                        <ProductImage 
-                          src={product.image_url || product.image} 
-                          alt={product.name}
-                          className="product-image"
-                          containerClass="product-image-wrapper"
-                        />
-                      </Link>
-                      <Card.Body>
-                        <div className="product-category">{product.category?.name || product.category}</div>
-                        <Link to={`/product/${product.id}`} className="product-link">
-                          <Card.Title>{product.name}</Card.Title>
-                        </Link>
-                        {product.rating && (
-                          <div className="product-rating">
-                            {'★'.repeat(Math.floor(product.rating))}
-                            {'☆'.repeat(5 - Math.floor(product.rating))}
-                            <span className="rating-number">{product.rating}</span>
-                          </div>
-                        )}
-                        <div className="product-price">${product.price ? product.price.toFixed(2) : '0.00'}</div>
-                        <div className="product-buttons">
-                          <Link to={`/product/${product.id}`}>
-                            <Button variant="outline-primary" size="sm">View Details</Button>
-                          </Link>
-                          <Button 
-                            variant="primary" 
-                            size="sm"
-                            onClick={() => addToCart(product)}
-                          >
-                            Add to Cart
-                          </Button>
-                        </div>
-                      </Card.Body>
-                    </Card>
+                    <FlipCard
+                      product={product}
+                      isFlipped={flippedCards[product.id]}
+                      onAddToCart={handleAddToCart}
+                    />
                   </Col>
                 ))}
               </Row>

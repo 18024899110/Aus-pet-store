@@ -280,8 +280,9 @@ const ProductManagement = () => {
     <div className="product-management">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1>Product Management</h1>
-        <Button 
-          variant="primary" 
+        <Button
+          variant="light"
+          size="sm"
           onClick={() => setShowModal(true)}
           className="d-flex align-items-center"
         >
@@ -321,8 +322,9 @@ const ProductManagement = () => {
               </Form.Select>
             </Col>
             <Col md={2}>
-              <Button 
-                variant="outline-secondary" 
+              <Button
+                variant="light"
+                size="sm"
                 onClick={() => {
                   setSearchTerm('');
                   setSelectedCategory('');
@@ -390,24 +392,24 @@ const ProductManagement = () => {
                     </td>
                     <td>
                       <div className="action-buttons">
-                        <Button 
-                          variant="outline-info" 
+                        <Button
+                          variant="light"
                           size="sm"
                           onClick={() => handleViewDetails(product)}
                           title="View Details"
                         >
                           <FaEye />
                         </Button>
-                        <Button 
-                          variant="outline-warning" 
+                        <Button
+                          variant="light"
                           size="sm"
                           onClick={() => handleEdit(product)}
                           title="Edit Product"
                         >
                           <FaEdit />
                         </Button>
-                        <Button 
-                          variant="outline-danger" 
+                        <Button
+                          variant="light"
                           size="sm"
                           onClick={() => handleDelete(product)}
                           title="Delete Product"
@@ -595,11 +597,11 @@ const ProductManagement = () => {
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleModalClose}>
+            <Button variant="light" size="sm" onClick={handleModalClose}>
               <FaTimes className="me-2" />
               Cancel
             </Button>
-            <Button variant="primary" type="submit">
+            <Button variant="light" size="sm" type="submit">
               <FaSave className="me-2" />
               {editingProduct ? 'Update Product' : 'Create Product'}
             </Button>
@@ -674,10 +676,10 @@ const ProductManagement = () => {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDetailsModal(false)}>
+          <Button variant="light" size="sm" onClick={() => setShowDetailsModal(false)}>
             关闭
           </Button>
-          <Button variant="warning" onClick={() => {
+          <Button variant="light" size="sm" onClick={() => {
             setShowDetailsModal(false);
             handleEdit(productDetails);
           }}>
@@ -699,10 +701,10 @@ const ProductManagement = () => {
           <p>Are you sure you want to delete <strong>{productToDelete?.name}</strong>?</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
+          <Button variant="light" size="sm" onClick={() => setShowDeleteModal(false)}>
             Cancel
           </Button>
-          <Button variant="danger" onClick={confirmDelete}>
+          <Button variant="light" size="sm" onClick={confirmDelete}>
             Delete Product
           </Button>
         </Modal.Footer>

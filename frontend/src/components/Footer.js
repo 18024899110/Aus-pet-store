@@ -63,7 +63,7 @@ const Footer = () => {
                   placeholder="Your email address"
                   className="me-2"
                 />
-                <Button variant="primary" type="submit">
+                <Button variant="light" size="sm" type="submit">
                   <FaEnvelope />
                 </Button>
               </Form.Group>

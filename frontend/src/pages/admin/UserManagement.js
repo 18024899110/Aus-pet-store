@@ -118,7 +118,7 @@ const UserManagement = () => {
     <div className="user-management">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1>User Management</h1>
-        <Button variant="outline-primary" onClick={fetchUsers}>
+        <Button variant="light" size="sm" onClick={fetchUsers}>
           Refresh Users
         </Button>
       </div>
@@ -141,8 +141,9 @@ const UserManagement = () => {
               </InputGroup>
             </Col>
             <Col md={6} className="text-end">
-              <Button 
-                variant="outline-secondary" 
+              <Button
+                variant="light"
+                size="sm"
                 onClick={() => setSearchTerm('')}
               >
                 Clear
@@ -195,16 +196,16 @@ const UserManagement = () => {
                     </td>
                     <td>
                       <div className="action-buttons">
-                        <Button 
-                          variant="outline-info" 
+                        <Button
+                          variant="light"
                           size="sm"
                           onClick={() => handleViewDetails(user)}
                           title="View Details"
                         >
                           <FaEye />
                         </Button>
-                        <Button 
-                          variant={user.is_active ? "outline-warning" : "outline-success"}
+                        <Button
+                          variant="light"
                           size="sm"
                           onClick={() => handleToggleUserStatus(user)}
                           title={user.is_active ? "Deactivate User" : "Activate User"}
@@ -334,7 +335,7 @@ const UserManagement = () => {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDetailsModal(false)}>
+          <Button variant="light" size="sm" onClick={() => setShowDetailsModal(false)}>
             Close
           </Button>
         </Modal.Footer>
@@ -368,11 +369,12 @@ const UserManagement = () => {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowStatusModal(false)}>
+          <Button variant="light" size="sm" onClick={() => setShowStatusModal(false)}>
             Cancel
           </Button>
-          <Button 
-            variant={selectedUser?.is_active ? "warning" : "success"} 
+          <Button
+            variant="light"
+            size="sm"
             onClick={confirmToggleStatus}
           >
             {selectedUser?.is_active ? "Deactivate" : "Activate"} User

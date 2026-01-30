@@ -136,7 +136,7 @@ const OrderManagement = () => {
     <div className="order-management">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1>Order Management</h1>
-        <Button variant="outline-primary" onClick={fetchOrders}>
+        <Button variant="light" size="sm" onClick={fetchOrders}>
           Refresh Orders
         </Button>
       </div>
@@ -172,8 +172,9 @@ const OrderManagement = () => {
               </Form.Select>
             </Col>
             <Col md={2}>
-              <Button 
-                variant="outline-secondary" 
+              <Button
+                variant="light"
+                size="sm"
                 onClick={() => {
                   setSearchTerm('');
                   setStatusFilter('');
@@ -214,7 +215,7 @@ const OrderManagement = () => {
                       <td>
                         <div className="d-flex align-items-center">
                           <Button
-                            variant="link"
+                            variant="light"
                             size="sm"
                             className="p-0 me-2"
                             onClick={() => toggleOrderExpansion(order.id)}
@@ -240,16 +241,16 @@ const OrderManagement = () => {
                       <td className="fw-bold">{formatCurrency(order.total_amount)}</td>
                       <td>
                         <div className="action-buttons">
-                          <Button 
-                            variant="outline-info" 
+                          <Button
+                            variant="light"
                             size="sm"
                             onClick={() => handleViewDetails(order)}
                             title="View Details"
                           >
                             <FaEye />
                           </Button>
-                          <Button 
-                            variant="outline-warning" 
+                          <Button
+                            variant="light"
                             size="sm"
                             onClick={() => handleStatusChange(order)}
                             title="Update Status"
@@ -444,7 +445,7 @@ const OrderManagement = () => {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDetailsModal(false)}>
+          <Button variant="light" size="sm" onClick={() => setShowDetailsModal(false)}>
             Close
           </Button>
         </Modal.Footer>
@@ -479,10 +480,10 @@ const OrderManagement = () => {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowStatusModal(false)}>
+          <Button variant="light" size="sm" onClick={() => setShowStatusModal(false)}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleUpdateStatus}>
+          <Button variant="light" size="sm" onClick={handleUpdateStatus}>
             Update Status
           </Button>
         </Modal.Footer>

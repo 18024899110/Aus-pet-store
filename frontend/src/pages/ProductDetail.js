@@ -147,9 +147,11 @@ const ProductDetail = () => {
         <Breadcrumb className="product-breadcrumb">
           <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>Home</Breadcrumb.Item>
           <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/products' }}>All Products</Breadcrumb.Item>
-          <Breadcrumb.Item linkAs={Link} linkProps={{ to: `/products/${product.category.slug}` }}>
-            {product.category.name}
-          </Breadcrumb.Item>
+          {product.category && (
+            <Breadcrumb.Item linkAs={Link} linkProps={{ to: `/products/${product.category.slug || product.category_id}` }}>
+              {product.category.name || product.category}
+            </Breadcrumb.Item>
+          )}
           <Breadcrumb.Item active>{product.name}</Breadcrumb.Item>
         </Breadcrumb>
         
@@ -244,7 +246,7 @@ const ProductDetail = () => {
                       <span className="quantity-label">Quantity:</span>
                       <div className="quantity-controls">
                         <Button 
-                          variant="outline-secondary" 
+                          variant="light" 
                           size="sm"
                           onClick={decreaseQuantity}
                           disabled={quantity <= 1}
@@ -261,7 +263,7 @@ const ProductDetail = () => {
                           className="qty-input"
                         />
                         <Button 
-                          variant="outline-secondary" 
+                          variant="light" 
                           size="sm"
                           onClick={increaseQuantity}
                           disabled={quantity >= product.stock}
@@ -275,9 +277,8 @@ const ProductDetail = () => {
                   
                   <div className="action-buttons">
                     <Button 
-                      variant="primary" 
-                      size="lg"
-                      className="add-to-cart-btn"
+                      className="add-to-cart-btn text-white h-12"
+                      variant="light"
                       onClick={handleAddToCart}
                       disabled={addedToCart || product.stock <= 0}
                     >
@@ -295,14 +296,12 @@ const ProductDetail = () => {
                     </Button>
                     
                     <div className="secondary-actions">
-                      <Button variant="outline-primary" className="action-btn">
+                      <Button variant="light" className="action-btn">
                         <FaHeart className="me-1" />
-                        Favorite
                       </Button>
                       
-                      <Button variant="outline-secondary" className="action-btn">
+                      <Button variant="light" className="action-btn">
                         <FaShare className="me-1" />
-                        Share
                       </Button>
                     </div>
                   </div>
@@ -315,6 +314,7 @@ const ProductDetail = () => {
         {/* Product Details Tabs */}
         <div className="product-details-tabs">
           <Tabs defaultActiveKey="specifications" className="mb-4">
+
             <Tab eventKey="specifications" title="Specifications">
               <div className="specifications-table">
                 <table>
@@ -329,6 +329,7 @@ const ProductDetail = () => {
                 </table>
               </div>
             </Tab>
+
             <Tab eventKey="reviews" title={`Reviews (${product.reviewCount})`}>
               <div className="reviews-container">
                 {product.reviews.map(review => (
@@ -347,12 +348,13 @@ const ProductDetail = () => {
                 ))}
               </div>
             </Tab>
+
           </Tabs>
         </div>
         
         {/* Related Products */}
         <div className="related-products">
-          <h3 className="section-title">Related Products</h3>
+          <h3 className="text-center text-4xl font-bold text-gray-800">Related Products</h3>
           <Row>
             {product.relatedProducts.map(relatedProduct => (
               <Col md={4} key={relatedProduct.id} className="mb-4">

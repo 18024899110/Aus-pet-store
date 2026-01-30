@@ -1,3 +1,8 @@
+/* ===================================
+   LUXE MINIMALIST START PAGE
+   Design: Editorial Elegance × Refined Simplicity
+   =================================== */
+
 .start-page-container {
   position: fixed;
   top: 0;
@@ -6,212 +11,230 @@
   height: 100vh;
   overflow: hidden;
   z-index: 9999;
-  background: #ffffff;
+  background: transparent;
   pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .start-page-container.leaving {
   pointer-events: none;
-  /* 立即降低 z-index,让后面的内容可以显示 */
   z-index: 1000;
 }
 
-/* Hyperspeed 背景 */
-.start-page-container #lights {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
+.start-page-container.leaving .start-content {
+  animation: elegantFadeOut 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
 }
 
-/* 内容层 */
+/* ===================================
+   CONTENT LAYER
+   =================================== */
+
 .start-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
   text-align: center;
   z-index: 10;
   width: 100%;
-  max-width: 600px;
-  padding: 20px;
+  max-width: 720px;
+  padding: var(--space-12);
+  opacity: 0;
+  animation: elegantFadeIn 1.6s cubic-bezier(0.19, 1, 0.22, 1) 0.3s forwards;
 }
 
-/* Logo 区域 */
+/* ===================================
+   LOGO & TYPOGRAPHY
+   =================================== */
+
 .start-logo {
-  margin-bottom: 80px;
-  animation: fadeInDown 1.2s ease-out;
+  margin-bottom: var(--space-24);
 }
 
 .logo-icon {
-  font-size: 6rem;
-  margin-bottom: 20px;
-  animation: floatIcon 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 30px rgba(3, 179, 195, 0.6));
+  font-size: 4rem;
+  margin-bottom: var(--space-10);
+  opacity: 0;
+  animation: subtleFloat 4s ease-in-out infinite, fadeInIcon 1.2s ease-out 0.6s forwards;
+  filter: grayscale(100%) contrast(1.2);
 }
 
-@keyframes floatIcon {
+@keyframes subtleFloat {
   0%, 100% {
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-15px);
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes fadeInIcon {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 0.9;
+    transform: scale(1);
   }
 }
 
 .start-title {
-  font-size: 4.5rem;
-  font-weight: 900;
-  margin: 0 0 20px 0;
-  background: linear-gradient(
-    135deg,
-    #03B3C3 0%,
-    #D856BF 50%,
-    #6750A2 100%
-  );
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: gradientShift 4s ease infinite;
-  letter-spacing: 3px;
-  text-shadow: 0 0 50px rgba(3, 179, 195, 0.5);
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 400;
+  font-style: italic;
+  margin: 0 0 var(--space-8) 0;
+  color: var(--color-obsidian);
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  opacity: 0;
+  animation: fadeInUp 1.4s cubic-bezier(0.19, 1, 0.22, 1) 0.8s forwards;
 }
 
-@keyframes gradientShift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+.subtitle-container {
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-16);
 }
 
 .start-subtitle {
-  font-size: 1.5rem;
-  color: rgba(0, 0, 0, 0.85);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-ash);
   margin: 0;
-  font-weight: 300;
-  letter-spacing: 4px;
-  text-shadow: none;
-  animation: fadeIn 1.5s ease-out 0.3s both;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fadeInUp 1.2s cubic-bezier(0.19, 1, 0.22, 1) 1.2s forwards;
 }
 
-/* 开始按钮 */
-.start-button {
-  position: relative;
-  padding: 20px 60px;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #000;
-  background: linear-gradient(135deg, #03B3C3, #D856BF);
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  letter-spacing: 2px;
-  box-shadow:
-    0 0 30px rgba(3, 179, 195, 0.6),
-    0 0 60px rgba(216, 86, 191, 0.4);
-  animation: popUpButton 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+/* ===================================
+   INTERACTION HINT
+   =================================== */
+
+.press-hint {
+  margin-top: var(--space-20);
+  opacity: 0;
+  animation: fadeInUp 1s cubic-bezier(0.19, 1, 0.22, 1) 1.6s forwards;
 }
 
-.start-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
-  transition: left 0.5s ease;
+.press-hint p {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-graphite);
+  margin: 0 0 var(--space-8) 0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  animation: gentlePulse 3s ease-in-out infinite;
 }
 
-.start-button:hover::before {
-  left: 100%;
-}
-
-.start-button:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow:
-    0 0 40px rgba(3, 179, 195, 0.8),
-    0 0 80px rgba(216, 86, 191, 0.6),
-    0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-.start-button:active {
-  transform: translateY(-2px) scale(1.02);
-}
-
-.start-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-.button-text {
-  position: relative;
-  z-index: 1;
-  margin-right: 10px;
-}
-
-.button-arrow {
-  position: relative;
-  z-index: 1;
-  display: inline-block;
-  transition: transform 0.3s ease;
-}
-
-.start-button:hover .button-arrow {
-  transform: translateX(5px);
-}
-
-/* 提示文字 */
-.start-hint {
-  margin-top: 50px;
-  animation: popUpButton 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.2s both;
-}
-
-.start-hint p {
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.5);
-  margin: 0;
-  letter-spacing: 2px;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
+@keyframes gentlePulse {
   0%, 100% {
-    opacity: 0.5;
+    opacity: 0.6;
   }
   50% {
     opacity: 1;
   }
 }
 
-/* 动画关键帧 */
-@keyframes fadeInDown {
+/* ===================================
+   PROGRESS BAR - MINIMAL DESIGN
+   =================================== */
+
+.progress-bar-container {
+  width: min(480px, 80vw);
+  height: 1px;
+  background: var(--color-porcelain);
+  margin: 0 auto;
+  position: relative;
+  overflow: visible;
+}
+
+.progress-bar-container::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  background: var(--color-obsidian);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.progress-bar-container::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  background: var(--color-porcelain);
+  border-radius: 50%;
+  transform: translate(50%, -50%);
+  transition: background var(--transition-base);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--color-obsidian);
+  transition: width 0.016s linear;
+  position: relative;
+}
+
+.progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  background: var(--color-gold);
+  border-radius: 50%;
+  transform: translate(50%, -50%);
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.4);
+}
+
+/* Progress complete state */
+.progress-bar-container:has(.progress-bar-fill[style*="100%"])::after {
+  background: var(--color-gold);
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.4);
+}
+
+/* ===================================
+   ANIMATIONS
+   =================================== */
+
+@keyframes elegantFadeIn {
   from {
     opacity: 0;
-    transform: translateY(-30px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes elegantFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-24px) scale(0.98);
   }
 }
 
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -219,80 +242,98 @@
   }
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
+/* ===================================
+   RESPONSIVE DESIGN
+   =================================== */
 
-@keyframes popUpButton {
-  0% {
-    opacity: 0;
-    transform: translateY(50px) scale(0.8);
-  }
-  70% {
-    transform: translateY(-10px) scale(1.05);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* 响应式设计 */
 @media (max-width: 768px) {
+  .start-content {
+    padding: var(--space-8);
+    max-width: 90vw;
+  }
+
   .logo-icon {
-    font-size: 4rem;
+    font-size: 3rem;
+    margin-bottom: var(--space-8);
   }
 
   .start-title {
-    font-size: 3rem;
-    letter-spacing: 2px;
+    font-size: clamp(2.5rem, 10vw, 4rem);
+    margin-bottom: var(--space-6);
   }
 
   .start-subtitle {
-    font-size: 1.2rem;
-    letter-spacing: 2px;
+    font-size: var(--text-xs);
+    letter-spacing: 0.12em;
   }
 
-  .start-button {
-    padding: 18px 50px;
-    font-size: 1.3rem;
+  .subtitle-container {
+    min-height: 48px;
+    margin-bottom: var(--space-12);
   }
 
-  .start-logo {
-    margin-bottom: 60px;
+  .press-hint {
+    margin-top: var(--space-16);
   }
 
-  .start-hint {
-    margin-top: 40px;
+  .press-hint p {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+
+  .progress-bar-container {
+    width: 90vw;
   }
 }
 
 @media (max-width: 480px) {
   .logo-icon {
-    font-size: 3rem;
+    font-size: 2.5rem;
+    margin-bottom: var(--space-6);
   }
 
   .start-title {
-    font-size: 2.2rem;
-    letter-spacing: 1px;
+    font-size: clamp(2rem, 12vw, 3rem);
   }
 
   .start-subtitle {
-    font-size: 1rem;
-    letter-spacing: 1px;
+    font-size: 10px;
   }
 
-  .start-button {
-    padding: 15px 40px;
-    font-size: 1.1rem;
+  .press-hint p {
+    font-size: 9px;
+  }
+}
+
+/* ===================================
+   ACCESSIBILITY
+   =================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .start-content,
+  .logo-icon,
+  .start-title,
+  .start-subtitle,
+  .press-hint,
+  .press-hint p {
+    animation: none;
+    opacity: 1;
   }
 
-  .start-hint p {
-    font-size: 0.9rem;
+  .start-page-container.leaving .start-content {
+    animation: none;
+    opacity: 0;
+  }
+
+  @keyframes subtleFloat {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+  }
+
+  @keyframes gentlePulse {
+    0%, 100% {
+      opacity: 1;
+    }
   }
 }

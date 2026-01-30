@@ -5,6 +5,7 @@ import { BloomEffect, EffectComposer, EffectPass, RenderPass, SMAAEffect, SMAAPr
 import './Hyperspeed.css';
 
 const Hyperspeed = ({
+  isSpeedUp = false, // 新增:外部控制加速状态
   effectOptions = {
     onSpeedUp: () => {},
     onSlowDown: () => {},
@@ -491,15 +492,18 @@ const Hyperspeed = ({
         this.leftSticks.init();
         this.leftSticks.mesh.position.setX(-(options.roadWidth + options.islandWidth / 2));
 
-        this.container.addEventListener('mousedown', this.onMouseDown);
-        this.container.addEventListener('mouseup', this.onMouseUp);
-        this.container.addEventListener('mouseout', this.onMouseUp);
+        // 只有在未禁用交互时才添加事件监听器
+        if (!options.disableInteraction) {
+          this.container.addEventListener('mousedown', this.onMouseDown);
+          this.container.addEventListener('mouseup', this.onMouseUp);
+          this.container.addEventListener('mouseout', this.onMouseUp);
 
-        this.container.addEventListener('touchstart', this.onTouchStart, { passive: true });
-        this.container.addEventListener('touchend', this.onTouchEnd, { passive: true });
-        this.container.addEventListener('touchcancel', this.onTouchEnd, { passive: true });
+          this.container.addEventListener('touchstart', this.onTouchStart, { passive: true });
+          this.container.addEventListener('touchend', this.onTouchEnd, { passive: true });
+          this.container.addEventListener('touchcancel', this.onTouchEnd, { passive: true });
 
-        this.container.addEventListener('contextmenu', this.onContextMenu);
+          this.container.addEventListener('contextmenu', this.onContextMenu);
+        }
 
         this.tick();
       }
@@ -590,7 +594,7 @@ const Hyperspeed = ({
         }
 
         window.removeEventListener('resize', this.onWindowResize.bind(this));
-        if (this.container) {
+        if (this.container && !this.options.disableInteraction) {
           this.container.removeEventListener('mousedown', this.onMouseDown);
           this.container.removeEventListener('mouseup', this.onMouseUp);
           this.container.removeEventListener('mouseout', this.onMouseUp);
@@ -1162,6 +1166,21 @@ const Hyperspeed = ({
       }
     };
   }, [effectOptions]);
+
+  // 监听外部的 isSpeedUp 状态变化
+  useEffect(() => {
+    if (appRef.current) {
+      if (isSpeedUp) {
+        // 触发加速
+        appRef.current.fovTarget = appRef.current.options.fovSpeedUp;
+        appRef.current.speedUpTarget = appRef.current.options.speedUp;
+      } else {
+        // 恢复正常速度
+        appRef.current.fovTarget = appRef.current.options.fov;
+        appRef.current.speedUpTarget = 0;
+      }
+    }
+  }, [isSpeedUp]);
 
   return <div id="lights" ref={hyperspeed}></div>;
 };

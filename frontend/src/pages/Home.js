@@ -1,14 +1,71 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Carousel } from 'react-bootstrap';
+import React, { useState, useEffect, useContext, useRef } from 'react';
+import { Container, Row, Col, Carousel, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { FaPaw, FaShippingFast, FaHeadset, FaRegCreditCard } from 'react-icons/fa';
+import { FaPaw, FaShippingFast, FaHeadset, FaRegCreditCard, FaSearch } from 'react-icons/fa';
+import { gsap } from 'gsap';
 import { productService } from '../services';
-import ProductImage from '../components/ProductImage';
+import { CartContext } from '../context/CartContext';
+import FlipCard from '../components/FlipCard';
+import IconButton from '../components/IconButton';
+import Hyperspeed from '../components/Hyperspeed';
 import './Home.css';
 
 const Home = () => {
+  const { addToCart } = useContext(CartContext);
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [flippedCards, setFlippedCards] = useState({});
+  const [error, setError] = useState('');
+
+  // 组件引用
+  const carouselRef = useRef(null);
+  const servicesRef = useRef(null);
+  const categoriesRef = useRef(null);
+  const productsRef = useRef(null);
+  const promoRef = useRef(null);
+
+  // 页面加载动画
+  useEffect(() => {
+    // 初始化所有组件为隐藏状态
+    gsap.set([carouselRef.current, servicesRef.current, categoriesRef.current, productsRef.current, promoRef.current], {
+      opacity: 0,
+      y: 50
+    });
+
+    // 依次弹出动画
+    const tl = gsap.timeline();
+
+    tl.to(carouselRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'power3.out'
+    })
+    .to(servicesRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'power3.out'
+    }, '-=0.4')
+    .to(categoriesRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'power3.out'
+    }, '-=0.4')
+    .to(productsRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'power3.out'
+    }, '-=0.4')
+    .to(promoRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'power3.out'
+    }, '-=0.4');
+  }, []);
 
   // Load featured products from API
   useEffect(() => {
@@ -24,6 +81,27 @@ const Home = () => {
       console.error('Failed to load featured products:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Handle add to cart with feedback
+  const handleAddToCart = async (product) => {
+    console.log('添加到购物车:', product);
+    try {
+      await addToCart(product);
+
+      // 触发翻转动画
+      setFlippedCards(prev => ({ ...prev, [product.id]: true }));
+
+      // 2秒后翻转回来
+      setTimeout(() => {
+        setFlippedCards(prev => ({ ...prev, [product.id]: false }));
+      }, 2000);
+
+    } catch (error) {
+      console.error('添加到购物车失败:', error);
+      setError('添加到购物车失败，请重试');
+      setTimeout(() => setError(''), 3000);
     }
   };
 
@@ -76,8 +154,45 @@ const Home = () => {
 
   return (
     <div className="home-page">
+      <Hyperspeed effectOptions={{
+        onSpeedUp: () => { },
+        onSlowDown: () => { },
+        distortion: 'turbulentDistortion',
+        length: 400,
+        roadWidth: 10,
+        islandWidth: 2,
+        lanesPerRoad: 4,
+        fov: 90,
+        fovSpeedUp: 150,
+        speedUp: 2,
+        carLightsFade: 0.4,
+        totalSideLightSticks: 20,
+        lightPairsPerRoadWay: 40,
+        shoulderLinesWidthPercentage: 0.05,
+        brokenLinesWidthPercentage: 0.1,
+        brokenLinesLengthPercentage: 0.5,
+        lightStickWidth: [0.12, 0.5],
+        lightStickHeight: [1.3, 1.7],
+        movingAwaySpeed: [60, 80],
+        movingCloserSpeed: [-120, -160],
+        carLightsLength: [400 * 0.03, 400 * 0.2],
+        carLightsRadius: [0.05, 0.14],
+        carWidthPercentage: [0.3, 0.5],
+        carShiftX: [-0.8, 0.8],
+        carFloorSeparation: [0, 5],
+        colors: {
+          roadColor: 0xffffff,
+          islandColor: 0xffffff,
+          background: 0xffffff,
+          shoulderLines: 0xFFFFFF,
+          brokenLines: 0xFFFFFF,
+          leftCars: [0xD856BF, 0x6750A2, 0xC247AC],
+          rightCars: [0x03B3C3, 0x0E5EA5, 0x324555],
+          sticks: 0x03B3C3,
+        }
+      }}/>
       {/* Carousel section - full width display */}
-      <div className="home-carousel-wrapper">
+      <div className="home-carousel-wrapper" ref={carouselRef}>
         <Carousel className="home-carousel">
           {banners.map(banner => (
             <Carousel.Item key={banner.id}>
@@ -99,7 +214,7 @@ const Home = () => {
       </div>
 
       {/* Service features section */}
-      <section className="services-section">
+      <section className="services-section" ref={servicesRef}>
         <Container>
           <Row className="g-0">
           <Col md={3} sm={6} className="service-item">
@@ -135,7 +250,7 @@ const Home = () => {
       </section>
 
       {/* Categories section */}
-      <section className="categories-section">
+      <section className="categories-section" ref={categoriesRef}>
         <Container>
           <h2 className="section-title">Pet Supply Categories</h2>
           <Row className="g-4">
@@ -153,9 +268,17 @@ const Home = () => {
       </section>
 
       {/* Featured products section */}
-      <section className="featured-products-section">
+      <section className="featured-products-section" ref={productsRef}>
         <Container>
           <h2 className="section-title">Featured Products</h2>
+
+          {/* Error message */}
+          {error && (
+            <Alert variant="danger" className="mb-3" onClose={() => setError('')} dismissible>
+              {error}
+            </Alert>
+          )}
+
           <Row className="g-4">
           {loading ? (
             <div className="text-center">
@@ -165,47 +288,30 @@ const Home = () => {
           ) : (
             featuredProducts.map(product => (
               <Col md={3} sm={6} key={product.id}>
-                <Card className="product-card">
-                  <div className="product-image-wrapper">
-                    <ProductImage 
-                      src={product.image_url || product.image}
-                      alt={product.name}
-                      className="product-image"
-                      containerClass="product-image-wrapper"
-                    />
-                  </div>
-                  <Card.Body>
-                    <div className="product-category">{product.category.name}</div>
-                    <Card.Title>{product.name}</Card.Title>
-                    <div className="product-rating">
-                      {'★'.repeat(Math.floor(product.rating || 5))}
-                      {'☆'.repeat(5 - Math.floor(product.rating || 5))}
-                      <span className="rating-number">{product.rating || 5}</span>
-                    </div>
-                    <div className="product-price">${product.price.toFixed(2)}</div>
-                    <div className="product-buttons">
-                      <Link to={`/product/${product.id}`}>
-                      
-                        <Button variant="light"  size="sm">View Details</Button>
-                      </Link>
-                      <Button variant="light" size="sm">Add to Cart?</Button>
-                    </div>
-                  </Card.Body>
-                </Card>
+                <FlipCard
+                  product={product}
+                  isFlipped={flippedCards[product.id]}
+                  onAddToCart={handleAddToCart}
+                />
               </Col>
             ))
           )}
         </Row>
         <div className="text-center mt-4">
           <Link to="/products">
-            <Button className="btn-white-gray" size="lg">View All Products</Button>
+            <IconButton
+              icon={FaSearch}
+              text="View All Products"
+              variant="gradient"
+              size="lg"
+            />
           </Link>
         </div>
         </Container>
       </section>
 
       {/* Promotional ads section */}
-      <section className="promo-section">
+      <section className="promo-section" ref={promoRef}>
         <Container>
           <Row className="g-4">
           <Col md={6}>
@@ -214,7 +320,7 @@ const Home = () => {
                 <h3>New Customer Special</h3>
                 <p>$10 off your first order</p>
                 <Link to="/register">
-                  <Button variant="light">Register Now</Button>
+                  <IconButton text="Register Now" variant="light" size="sm" />
                 </Link>
               </div>
             </div>
@@ -225,7 +331,7 @@ const Home = () => {
                 <h3>Limited Time Offer</h3>
                 <p>Selected pet toys from 20% off</p>
                 <Link to="/products/toys">
-                  <Button variant="light">Shop Now</Button>
+                  <IconButton text="Shop Now" variant="light" size="sm" />
                 </Link>
               </div>
             </div>

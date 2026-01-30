@@ -1,8 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Navbar, Nav, Container, Form, Button, Badge } from 'react-bootstrap';
+import { Navbar, Nav, Container, Form, Badge } from 'react-bootstrap';
 import { FaShoppingCart, FaUser, FaSearch, FaBars } from 'react-icons/fa';
 import { CartContext } from '../context/CartContext';
+import IconButton from './IconButton';
 import './Header.css';
 
 const Header = () => {
@@ -43,7 +44,7 @@ const Header = () => {
       <Container>
         <Navbar.Brand as={Link} to="/" className="logo">
           <img src="/images/logo.png" alt="CY Pet Store Logo" className="logo-img" />
-          <span>CY Pet Store</span>
+          <span className="text-center text-2xl font-bold">CY Pet Store</span>
         </Navbar.Brand>
         
         <Navbar.Toggle aria-controls="basic-navbar-nav">
@@ -67,9 +68,12 @@ const Header = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <Button variant="outline-light" type="submit" className="search-btn">
-              <FaSearch />
-            </Button>
+            <IconButton
+              icon={FaSearch}
+              variant="gradient"
+              type="submit"
+              className="search-btn"
+            />
           </Form>
           
           <Nav className="ms-auto user-nav">

@@ -57,7 +57,16 @@
       "Bash(Select-String -Pattern \"REACT_APP\")",
       "Bash(node --version:*)",
       "Bash(git config:*)",
-      "Bash(git syncm:*)"
+      "Bash(git syncm:*)",
+      "Bash(netstat:*)",
+      "Bash(ping:*)",
+      "Bash(tree:*)",
+      "Bash(npm run init-db:*)",
+      "Bash(npm run dev:*)",
+      "Bash(/tasks)",
+      "Bash(npm view:*)",
+      "Bash(claude skills:*)",
+      "Bash(ls:*)"
     ],
     "deny": []
   }

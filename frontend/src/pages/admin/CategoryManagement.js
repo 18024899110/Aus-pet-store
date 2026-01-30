@@ -162,8 +162,9 @@ const CategoryManagement = () => {
     <div className="category-management">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1>Category Management</h1>
-        <Button 
-          variant="primary" 
+        <Button
+          variant="light"
+          size="sm"
           onClick={() => setShowModal(true)}
           className="d-flex align-items-center"
         >
@@ -225,16 +226,16 @@ const CategoryManagement = () => {
                     </td>
                     <td>
                       <div className="action-buttons">
-                        <Button 
-                          variant="outline-warning" 
+                        <Button
+                          variant="light"
                           size="sm"
                           onClick={() => handleEdit(category)}
                           title="Edit Category"
                         >
                           <FaEdit />
                         </Button>
-                        <Button 
-                          variant="outline-danger" 
+                        <Button
+                          variant="light"
                           size="sm"
                           onClick={() => handleDelete(category)}
                           title="Delete Category"
@@ -311,11 +312,11 @@ const CategoryManagement = () => {
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleModalClose}>
+            <Button variant="light" size="sm" onClick={handleModalClose}>
               <FaTimes className="me-2" />
               Cancel
             </Button>
-            <Button variant="primary" type="submit">
+            <Button variant="light" size="sm" type="submit">
               <FaSave className="me-2" />
               {editingCategory ? 'Update Category' : 'Create Category'}
             </Button>
@@ -342,11 +343,12 @@ const CategoryManagement = () => {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
+          <Button variant="light" size="sm" onClick={() => setShowDeleteModal(false)}>
             Cancel
           </Button>
-          <Button 
-            variant="danger" 
+          <Button
+            variant="light"
+            size="sm"
             onClick={confirmDelete}
             disabled={categoryToDelete?.products && categoryToDelete.products.length > 0}
           >
